@@ -7,5 +7,7 @@ namespace Ex03.GarageLogic
 {
     class ElectricEngine
     {
+        private float /*readonly*/ r_MaximalAmountOfBattery;
+        private float m_BatteryLeft;
     }
 }
