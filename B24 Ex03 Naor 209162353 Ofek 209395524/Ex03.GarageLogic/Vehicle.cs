@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class Vehicle
+    abstract class Vehicle
     {
         protected string m_ModelName;
         protected string m_LicensePlate;
