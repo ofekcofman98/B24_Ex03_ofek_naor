@@ -7,5 +7,7 @@ namespace Ex03.GarageLogic
 {
     class Car
     {
+        enum m_Color;
+        enum m_NumOfDoors;
     }
 }

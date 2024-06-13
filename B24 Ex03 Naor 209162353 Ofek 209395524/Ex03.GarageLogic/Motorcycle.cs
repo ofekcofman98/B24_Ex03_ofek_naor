@@ -7,5 +7,7 @@ namespace Ex03.GarageLogic
 {
     class Motorcycle
     {
+        enum m_LicenseType;
+        private int m_EngineVolume;
     }
 }
