@@ -26,6 +26,10 @@ namespace Ex03.GarageLogic
         {
             return s_VehiclesTypes.Count;
         }
-    }
 
+        public static Vehicle CreateNewVehicle(int i_LicensePlateNumber)
+        {
+
+        }
+    }
 }
