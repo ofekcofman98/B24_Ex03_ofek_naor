@@ -9,6 +9,8 @@ namespace Ex03.ConsoleUI
     {
         public static void Main()
         {
+            GarageInterface nameToChange = new GarageInterface();
+            
         }
     }
 }

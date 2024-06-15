@@ -44,6 +44,11 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public void InflationToMaximum()
+        {
+
+        }
+
 
     }
 }

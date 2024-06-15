@@ -24,12 +24,46 @@ namespace Ex03.ConsoleUI
             DisplayVehicleFullInfo = 7
         }
 
-        public static void Menu()
+        public void GarageRun()
+        {
+            printWelcome();
+            printGarageMenu();
+            getMenuChoice();
+            getVehicleType();
+        }
+
+        private void printWelcome()
         {
             Console.WriteLine("welcome to laGarage");
         }
 
-        public void AddNewVehicle()
+        private void printGarageMenu()
+        {
+            string garageMenu = string.Format(@"
+Garage System Menu:
+-----------------------------------------------------------------------
+1. Add a new vehicle.
+2. Display the license plates of all vehicles.
+3. Change a vehicle status.
+4. Inflate wheels' air pressure to maximum.
+5. Refuel vehicle's tank.
+6. Recharge vehicle's battery.
+7. Display a vehicle information by a license plate.
+8. Exit garage system.
+-----------------------------------------------------------------------
+Please enter the number corresponding to your choice: ");
+        }
+
+        private int getMenuChoice()
+        {
+            string i_MenuChoiceString = Console.ReadLine();
+            int i_MenuChoice = 0;
+            int.TryParse(i_MenuChoiceString, out i_MenuChoice);
+            // validation
+            return i_MenuChoice;
+        }
+
+        private void addNewVehicle()
         {
             int i_LicenseNumber = GetLicenseNumber();
 
@@ -48,13 +82,40 @@ namespace Ex03.ConsoleUI
         {
             string i_vechicleInput;
             Console.WriteLine("vehicle types: ");
-            // function that prints list of: fueled/electric/none + the types this systems supports
+            PrintList(Garage.GetVehicleTypeList(), i_IsListNumbered: true);
             Console.WriteLine("PLease enter the vehicle's type: ");
             while(true)
             {
-                //int i_NumberInput = Console.ReadLine();
+                i_vechicleInput = Console.ReadLine();
+                // first validation
+                // is in garage validation
+                if(!Garage.CheckVehicleTypeInputValidation(i_vechicleInput))
+                {
+                    Console.WriteLine("invalid input, try again");
+                }
+                else
+                {
+                    break;
+                }
             }
+            return i_vechicleInput;
+        }
 
+        public static void PrintList<T>(List<T> i_List, bool i_IsListNumbered = false)
+        {
+            int i = 1;
+            foreach(T item in i_List)
+            {
+                if(i_IsListNumbered)
+                {
+                    Console.WriteLine($"{i}. {item}");
+                    i++;
+                }
+                else
+                {
+                    Console.WriteLine(item);
+                }
+            }
         }
 
         public int GetLicenseNumber()
