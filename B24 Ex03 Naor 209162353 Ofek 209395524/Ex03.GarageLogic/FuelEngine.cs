@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class FuelEngine : Engine
+    internal class FuelEngine : Engine
     {
         private readonly float  r_MaximalAmountOfGas;
         private float m_CurrentAmountOfGas;

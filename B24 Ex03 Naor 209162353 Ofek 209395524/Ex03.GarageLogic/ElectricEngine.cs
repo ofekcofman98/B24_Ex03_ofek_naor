@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class ElectricEngine : Engine
+    internal class ElectricEngine : Engine
     {
         private readonly float r_MaximalAmountOfBattery;
         private float m_BatteryLeft;

@@ -9,7 +9,7 @@ using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
 {
-    class GarageInterface
+    public class GarageInterface
     {
         private Garage m_Garage = new Garage();
 
@@ -53,6 +53,7 @@ Garage System Menu:
 8. Exit garage system.
 -----------------------------------------------------------------------
 Please enter the number corresponding to your choice: ");
+
         }
 
         private int getMenuChoice()

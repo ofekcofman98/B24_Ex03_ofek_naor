@@ -6,10 +6,10 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class Wheel
+    internal class Wheel
     {
         private readonly float r_MaximumAirPressure;
-        private string m_Manufactor;
+        private string m_Manufacturer;
         private float m_CurrentAirPressure;
 
         public float MaximumAirPressure
@@ -19,10 +19,10 @@ namespace Ex03.GarageLogic
                 return r_MaximumAirPressure;
             }
         }
-        public string Manufactor
+        public string Manufacturer
         {
-            get { return m_Manufactor; }
-            set { m_Manufactor = value; }
+            get { return m_Manufacturer; }
+            set { m_Manufacturer = value; }
         }
 
         public float CurrentAirPressure

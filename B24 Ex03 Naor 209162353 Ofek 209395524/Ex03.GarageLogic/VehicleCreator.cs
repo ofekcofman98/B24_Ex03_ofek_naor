@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    static class VehicleCreator
+    internal static class VehicleCreator
     {
         private static List<string> s_VehiclesTypes = new List<string>()
         {

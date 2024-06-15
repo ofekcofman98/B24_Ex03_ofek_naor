@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class Car : Vehicle
+    internal class Car : Vehicle
     {
         private eCarColor m_CarColor;
         private eNumberOfDoors m_NumOfDoors;

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class GarageVehicleInfo
+    internal class GarageVehicleInfo
     {
         private string m_OwnerName;
         private string m_OwnerPhone;
