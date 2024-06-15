@@ -5,9 +5,16 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class Motorcycle
+    class Motorcycle : Vehicle
     {
-        //enum m_LicenseType;
         private int m_EngineVolume;
+        private eLicenseType m_LicenseType;
+        private enum eLicenseType
+        {
+            B1,
+            AA,
+            A1,
+            A,
+        }
     }
 }

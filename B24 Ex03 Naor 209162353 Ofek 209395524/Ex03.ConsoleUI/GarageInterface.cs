@@ -21,7 +21,8 @@ namespace Ex03.ConsoleUI
             InflationToMaximum = 4,
             RefuelVehicleTank = 5,
             ChargeVehicleBattery = 6,
-            DisplayVehicleFullInfo = 7
+            DisplayVehicleFullInfo = 7,
+            ExitSystem = 8
         }
 
         public void GarageRun()
@@ -56,40 +57,70 @@ Please enter the number corresponding to your choice: ");
 
         private int getMenuChoice()
         {
-            string i_MenuChoiceString = Console.ReadLine();
-            int i_MenuChoice = 0;
-            int.TryParse(i_MenuChoiceString, out i_MenuChoice);
+            string menuChoiceString = Console.ReadLine();
+            int.TryParse(menuChoiceString, out int menuChoice);
             // validation
-            return i_MenuChoice;
+            return menuChoice;
+        }
+
+        private void userMenuChoiceManager(eMenuOptions i_MenuChoice)
+        {
+            switch (i_MenuChoice)
+            {
+                case eMenuOptions.AddNewVehicle:
+                    //
+                    break;
+                case eMenuOptions.DisplayLicensePlates:
+                    //
+                    break;
+                case eMenuOptions.ChangeVehicleStatus:
+                    //
+                    break;
+                case eMenuOptions.InflationToMaximum:
+                    //
+                    break;
+                case eMenuOptions.RefuelVehicleTank:
+                    //
+                    break;
+                case eMenuOptions.ChargeVehicleBattery:
+                    //
+                    break;
+                case eMenuOptions.DisplayVehicleFullInfo:
+                    //
+                    break;
+                case eMenuOptions.ExitSystem:
+                    //
+                    break;
+            }
         }
 
         private void addNewVehicle()
         {
-            int i_LicenseNumber = GetLicenseNumber();
+            int licenseNumber = GetLicenseNumber();
 
-            if (m_Garage.IsVehicleInGarage(i_LicenseNumber))
+            if (m_Garage.IsVehicleInGarage(licenseNumber))
             {
                 Console.WriteLine("The vehicle is already in the garage");
                 // change status to - "under repair"
             }
             else
             {
-                
+                getVehicleType();
             }
         }
 
         private string getVehicleType()
         {
-            string i_vechicleInput;
+            string vechcleInput;
             Console.WriteLine("vehicle types: ");
             PrintList(Garage.GetVehicleTypeList(), i_IsListNumbered: true);
             Console.WriteLine("PLease enter the vehicle's type: ");
             while(true)
             {
-                i_vechicleInput = Console.ReadLine();
+                vechcleInput = Console.ReadLine();
                 // first validation
                 // is in garage validation
-                if(!Garage.CheckVehicleTypeInputValidation(i_vechicleInput))
+                if(!Garage.CheckVehicleTypeInputValidation(vechcleInput))
                 {
                     Console.WriteLine("invalid input, try again");
                 }
@@ -98,10 +129,11 @@ Please enter the number corresponding to your choice: ");
                     break;
                 }
             }
-            return i_vechicleInput;
+
+            return vechcleInput;
         }
 
-        public static void PrintList<T>(List<T> i_List, bool i_IsListNumbered = false)
+        public static void PrintList<T>(List<T> i_List, bool i_IsListNumbered = false) // Fix names
         {
             int i = 1;
             foreach(T item in i_List)
@@ -120,36 +152,38 @@ Please enter the number corresponding to your choice: ");
 
         public int GetLicenseNumber()
         {
-            int i_LicenseNumber = 0;
+            int licenseNumber = 0;
             Console.WriteLine("please enter your license number:");
             while (true)
             {
-                string i_LicenseNumberString = Console.ReadLine();
-                if (CheckInputValidation(i_LicenseNumberString))
+                string licenseNumberString = Console.ReadLine();
+                if (CheckInputValidation(licenseNumberString))
                 {
-                    int.TryParse(i_LicenseNumberString,out i_LicenseNumber);
+                    int.TryParse(licenseNumberString, out licenseNumber);
                     break;
                 }
                 Console.WriteLine("valid input please");
             }
-            return i_LicenseNumber;
+
+            return licenseNumber;
         }
 
         public bool CheckInputValidation(string i_LicenseNumberString)
         {
-            bool isValid = false;
-            if(i_LicenseNumberString.Length == 9) // change 9 to k_
+            bool isValid = i_LicenseNumberString.Length == 8; // could be also 7, or 6 for vintage for ex... 
+
+            if (isValid)
             {
-                isValid = true;
                 foreach (char c in i_LicenseNumberString)
                 {
                     if (!char.IsDigit(c))
                     {
-                        return false;
+                        isValid = false;
                         break;
                     }
                 }
             }
+
             return isValid;
         }
     }

@@ -5,10 +5,24 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    class Car
+    class Car : Vehicle
     {
-        //enum m_Color;
+        private eCarColor m_CarColor;
+        private eNumberOfDoors m_NumOfDoors;
+        private enum eCarColor
+        {
+            Yellow = 1,
+            White = 2,
+            Red = 3,
+            Black = 4
+        }
 
-        //enum m_NumOfDoors;
+        private enum eNumberOfDoors
+        {
+            Two = 2,
+            Three = 3,
+            Four = 4,
+            Five = 5
+        }
     }
 }

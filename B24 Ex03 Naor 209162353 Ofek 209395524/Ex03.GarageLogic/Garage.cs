@@ -7,21 +7,22 @@ namespace Ex03.GarageLogic
 {
     public class Garage
     {
-        Dictionary<int, GarageVehicleInfo> vehiclesInGarageDict;
+        private Dictionary<int, GarageVehicleInfo> m_VehiclesInGarageDict;
 
         public bool IsVehicleInGarage(int i_LicenseNumber)
         {
-            return vehiclesInGarageDict.ContainsKey(i_LicenseNumber);
+            return m_VehiclesInGarageDict.ContainsKey(i_LicenseNumber);
         }
 
         public static bool CheckVehicleTypeInputValidation(string i_InputString)
         {
             bool isValid = false;
-            int i_InputNumber = int.Parse(i_InputString);
-            if(i_InputNumber >= 1 && i_InputNumber <= VehicleCreator.GetNumOfVehiclesType()) // if number is in the range of static num of type 
+            int inputNumber = int.Parse(i_InputString);
+            if(inputNumber >= 1 && inputNumber <= VehicleCreator.GetNumOfVehiclesType()) // if number is in the range of static num of type 
             {
                 isValid = true;
             }
+
             return isValid;
         }
 
