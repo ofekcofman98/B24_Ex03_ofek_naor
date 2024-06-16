@@ -34,10 +34,12 @@ namespace Ex03.GarageLogic
         public List<string> GetVehicleStatusList()
         {
             List<string> statusList = new List<string>();
-            foreach (var status in Enum.GetValues(typeof(GarageVehicleInfo.eVehicleStatus)))
+
+            foreach (var status in Enum.GetValues(typeof(GarageVehicleInfo.eVehicleStatus))) // change var
             {
                 statusList.Add($"{(int)status}. {status}");
             }
+
             return statusList;
         }
 
@@ -54,7 +56,7 @@ namespace Ex03.GarageLogic
             newVehicleInfo.Vehicle = VehicleCreator.CreateNewVehicle(i_LicensePlateNumber); // TO DO
         }
 
-        public void ResetCarStatus(int i_LicensePlateNumber)
+        public void ResetVehicleStatus(int i_LicensePlateNumber)
         {
             m_VehiclesInGarageDict[i_LicensePlateNumber].ResetStatusToInRepair();
         }
@@ -86,7 +88,7 @@ namespace Ex03.GarageLogic
             return licensePlatesList;
         }
 
-        public void ChcnageVehicleStatus(int i_LicensePlateNumber, int i_UserPick)
+        public void ChangeVehicleStatus(int i_LicensePlateNumber, int i_UserPick)
         {
             m_VehiclesInGarageDict[i_LicensePlateNumber].VehicleStatus = (GarageVehicleInfo.eVehicleStatus)i_UserPick;
         }

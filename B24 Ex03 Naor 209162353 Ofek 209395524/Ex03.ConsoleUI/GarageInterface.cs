@@ -62,7 +62,7 @@ Please enter the number corresponding to your choice: ");
             string menuChoiceString = Console.ReadLine();
             int.TryParse(menuChoiceString, out int menuChoice);
 
-            while(menuChoice < 1 || menuChoice > 8) // k_
+            while(menuChoice < (int)eMenuOptions.AddNewVehicle || menuChoice > (int)eMenuOptions.ExitSystem) // k_
             {
                 Console.WriteLine($"Invalid input. Please input a number between {eMenuOptions.AddNewVehicle} and {eMenuOptions.ExitSystem}");
                 menuChoiceString = Console.ReadLine();
@@ -110,7 +110,7 @@ Please enter the number corresponding to your choice: ");
             if (m_Garage.IsVehicleInGarage(licensePlateNumber))
             {
                 Console.WriteLine("The vehicle is already in the garage");
-                m_Garage.ResetCarStatus(licensePlateNumber);
+                m_Garage.ResetVehicleStatus(licensePlateNumber);
             }
             else
             {
@@ -203,6 +203,7 @@ Please enter the number corresponding to your choice: ");
         private void changeVehicleStatus()
         {
             int licensePlateNumber = getLicensePlateNumber();
+
             if (m_Garage.IsVehicleInGarage(licensePlateNumber))
             {
                 Console.WriteLine($"The current status of the car is {m_Garage.GetVehicleStatus(licensePlateNumber)}.");
@@ -219,7 +220,7 @@ Please enter the number corresponding to your choice: ");
                     userChoice = Console.ReadLine();
                 }
 
-                m_Garage.ChcnageVehicleStatus(licensePlateNumber, userPick);
+                m_Garage.ChangeVehicleStatus(licensePlateNumber, userPick);
 
             }
             else
