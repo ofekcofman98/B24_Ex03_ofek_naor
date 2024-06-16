@@ -114,13 +114,13 @@ Please enter the number corresponding to your choice: ");
             }
             else
             {
-                int vechicleTypeInputNumber = getVehicleTypeNumber();
+                int vehicleTypeInputNumber = getVehicleTypeNumber();
 
                 Console.WriteLine("Please enter the owner's name:");
                 string ownerName = Console.ReadLine();
                 Console.WriteLine("Please enter the owner's phone number:");
                 string ownerPhoneNumber = Console.ReadLine();
-                m_Garage.AddNewVehicleToGarage(licensePlate, vechicleTypeInputNumber, ownerName, ownerPhoneNumber);
+                m_Garage.AddNewVehicleToGarage(licensePlate, vehicleTypeInputNumber, ownerName, ownerPhoneNumber);
 
             }
 
