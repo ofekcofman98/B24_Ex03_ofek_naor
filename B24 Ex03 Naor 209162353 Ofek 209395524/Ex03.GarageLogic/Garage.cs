@@ -33,6 +33,12 @@ namespace Ex03.GarageLogic
             return m_VehiclesInGarageDict[i_LicensePlateNumber].VehicleStatus.ToString();
         }
 
+        public void GetVehicleTypeSpecificData(string i_LicensePlateNumber)
+        {
+            Vehicle currentVehicle = m_VehiclesInGarageDict[i_LicensePlateNumber].Vehicle;
+            //currentVehicle.
+        }
+
         public List<string> GetVehicleStatusList()
         {
             List<string> statusList = new List<string>();

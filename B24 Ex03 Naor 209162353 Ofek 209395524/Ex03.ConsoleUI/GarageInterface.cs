@@ -121,7 +121,10 @@ Please enter the number corresponding to your choice: ");
                 Console.WriteLine("Please enter the owner's phone number:");
                 string ownerPhoneNumber = Console.ReadLine();
                 m_Garage.AddNewVehicleToGarage(licensePlate, vehicleTypeInputNumber, ownerName, ownerPhoneNumber);
-
+                Console.WriteLine("Please enter model name");
+                string modelName = Console.ReadLine();
+                // add this data
+                Console.WriteLine();
             }
 
         }

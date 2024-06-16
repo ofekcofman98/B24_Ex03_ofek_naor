@@ -12,6 +12,17 @@ namespace Ex03.GarageLogic
         private bool m_DoesCarryHazardousMaterials;
         private float m_LagageVolume;
 
+
+        public override void SetSpecificData()
+        {
+        }
+
+        //public override Dictionary<string, string> GetSpecificData()
+        //{
+
+        //}
+        public override Dictionary<string, string> SpecificData { get; }
+
         public override string ToString()
         {
             StringBuilder truckInfo = new StringBuilder(base.ToString());
@@ -23,6 +34,11 @@ namespace Ex03.GarageLogic
 
         public Truck(string i_LicensePlate, Engine i_Engine) : base(i_LicensePlate, i_Engine)
         {
+            for (int i = 0; i < k_NumberOfWheels; i++)
+            {
+                m_WheelsList.Add(new Wheel(Wheel.k_MaximumAirPressureForTruck));
+            }
+
         }
     }
 }
