@@ -7,9 +7,9 @@ namespace Ex03.GarageLogic
 {
     public class Garage
     {
-        private Dictionary<int, GarageVehicleInfo> m_VehiclesInGarageDict;
+        private Dictionary<string, GarageVehicleInfo> m_VehiclesInGarageDict;
 
-        public bool IsVehicleInGarage(int i_LicenseNumber)
+        public bool IsVehicleInGarage(string i_LicenseNumber)
         {
             return m_VehiclesInGarageDict.ContainsKey(i_LicenseNumber);
         }
@@ -26,7 +26,7 @@ namespace Ex03.GarageLogic
             return isValid;
         }
 
-        public string GetVehicleStatus(int i_LicensePlateNumber)
+        public string GetVehicleStatus(string i_LicensePlateNumber)
         {
             return m_VehiclesInGarageDict[i_LicensePlateNumber].VehicleStatus.ToString();
         }
@@ -48,7 +48,7 @@ namespace Ex03.GarageLogic
             return VehicleCreator.GetVehiclesTypes();
         }
 
-        public void AddNewVehicle(int i_LicensePlateNumber, string i_OwnerName, string i_OwnerPhoneNumber)
+        public void AddNewVehicle(string i_LicensePlateNumber, string i_OwnerName, string i_OwnerPhoneNumber)
         {
             GarageVehicleInfo newVehicleInfo = new GarageVehicleInfo(i_OwnerName, i_OwnerPhoneNumber);
 
@@ -56,7 +56,7 @@ namespace Ex03.GarageLogic
             newVehicleInfo.Vehicle = VehicleCreator.CreateNewVehicle(i_LicensePlateNumber); // TO DO
         }
 
-        public void ResetVehicleStatus(int i_LicensePlateNumber)
+        public void ResetVehicleStatus(string i_LicensePlateNumber)
         {
             m_VehiclesInGarageDict[i_LicensePlateNumber].ResetStatusToInRepair();
         }
@@ -65,7 +65,7 @@ namespace Ex03.GarageLogic
         {
             List<int> licensePlatesList = new List<int>(m_VehiclesInGarageDict.Count);
 
-            foreach(KeyValuePair<int, GarageVehicleInfo> garageVehicleInfo in m_VehiclesInGarageDict)
+            foreach(KeyValuePair<string, GarageVehicleInfo> garageVehicleInfo in m_VehiclesInGarageDict)
             {
                 licensePlatesList.Add(int.Parse(garageVehicleInfo.Value.Vehicle.LicensePlate));
             }
@@ -77,7 +77,7 @@ namespace Ex03.GarageLogic
         {
             List<int> licensePlatesList = new List<int>(m_VehiclesInGarageDict.Count);
 
-            foreach (KeyValuePair<int, GarageVehicleInfo> garageVehicleInfo in m_VehiclesInGarageDict)
+            foreach (KeyValuePair<string, GarageVehicleInfo> garageVehicleInfo in m_VehiclesInGarageDict)
             {
                 if((int)garageVehicleInfo.Value.VehicleStatus == i_UserChoice)
                 {
@@ -88,9 +88,19 @@ namespace Ex03.GarageLogic
             return licensePlatesList;
         }
 
-        public void ChangeVehicleStatus(int i_LicensePlateNumber, int i_UserPick)
+        public void ChangeVehicleStatus(string i_LicensePlateNumber, int i_UserPick)
         {
             m_VehiclesInGarageDict[i_LicensePlateNumber].VehicleStatus = (GarageVehicleInfo.eVehicleStatus)i_UserPick;
+        }
+
+        public void InflateTiresToMaximum(string i_LicensePlateNumber)
+        {
+            m_VehiclesInGarageDict[i_LicensePlateNumber].Vehicle.InflateTiresToMax();
+        }
+
+        public string GetVehicleDetails(string i_LicensePlateNumber)
+        {
+            return m_VehiclesInGarageDict[i_LicensePlateNumber].ToString();
         }
     }
 }

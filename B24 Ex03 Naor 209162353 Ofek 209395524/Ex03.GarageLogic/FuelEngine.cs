@@ -5,12 +5,12 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    internal class FuelEngine : Engine
+    public class FuelEngine : Engine
     {
         private readonly float  r_MaximalAmountOfGas;
         private float m_CurrentAmountOfGas;
         private eFuelType m_FuelType; // readonly? 
-        private enum eFuelType
+        public enum eFuelType
         {
             Octan98,
             Octan96,

@@ -30,6 +30,19 @@ namespace Ex03.GarageLogic
         {
             m_VehicleStatus = eVehicleStatus.InRepair;
         }
+
+        public override string ToString()
+        {
+            StringBuilder garageVehicleInfo = new StringBuilder();
+            garageVehicleInfo.AppendLine($"Owner Name: {m_OwnerName}");
+            garageVehicleInfo.AppendLine($"Owner Phone: {m_OwnerPhone}");
+            garageVehicleInfo.AppendLine($"Vehicle Status: {m_VehicleStatus}");
+            garageVehicleInfo.AppendLine("Vehicle Details:");
+            garageVehicleInfo.AppendLine(m_Vehicle.ToString());
+
+            return garageVehicleInfo.ToString();
+        }
+
         public Vehicle Vehicle
         {
             get

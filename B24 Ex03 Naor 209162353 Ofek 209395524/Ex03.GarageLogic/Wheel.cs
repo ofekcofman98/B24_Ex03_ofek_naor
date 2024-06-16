@@ -44,11 +44,9 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void InflationToMaximum()
+        public void InflateToMax()
         {
-
+            m_CurrentAirPressure = MaximumAirPressure;
         }
-
-
     }
 }

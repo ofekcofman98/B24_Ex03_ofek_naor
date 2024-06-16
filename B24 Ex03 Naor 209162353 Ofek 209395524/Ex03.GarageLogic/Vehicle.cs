@@ -70,5 +70,30 @@ namespace Ex03.GarageLogic
             //    m_Wheels = value;
             //}
         }
+
+        public void InflateTiresToMax()
+        {
+            foreach(Wheel wheel in m_Wheels)
+            {
+                wheel.InflateToMax();
+            }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder vehicleInfo = new StringBuilder();
+            vehicleInfo.AppendLine($"Model Name: {m_ModelName}");
+            vehicleInfo.AppendLine($"License Plate: {m_LicensePlate}");
+            vehicleInfo.AppendLine($"Energy Percentage: {m_EnergyPercentage}%");
+            vehicleInfo.AppendLine($"Engine Details: {m_Engine}");
+            vehicleInfo.AppendLine("Tires Details:");
+
+            foreach (Wheel wheel in m_Wheels)
+            {
+                vehicleInfo.AppendLine($"  Manufacturer: {wheel.Manufacturer}, Current Air Pressure: {wheel.CurrentAirPressure}");
+            }
+
+            return vehicleInfo.ToString();
+        }
     }
 }

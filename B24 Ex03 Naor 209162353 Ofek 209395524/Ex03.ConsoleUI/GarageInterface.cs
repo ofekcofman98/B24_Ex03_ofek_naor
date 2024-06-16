@@ -28,9 +28,9 @@ namespace Ex03.ConsoleUI
         public void GarageRun()
         {
             printWelcome();
-            printGarageMenu();
+            printGarageMenu(); 
             getMenuChoice();
-            getVehicleType();
+            getVehicleType();// why? 
         }
 
         private void printWelcome()
@@ -86,16 +86,16 @@ Please enter the number corresponding to your choice: ");
                     changeVehicleStatus();
                     break;
                 case eMenuOptions.InflationToMaximum:
-                    //
+                    inflateTiresToMaximum();
                     break;
                 case eMenuOptions.RefuelVehicleTank:
-                    //
+                    refuelVehicle();
                     break;
                 case eMenuOptions.ChargeVehicleBattery:
                     //
                     break;
                 case eMenuOptions.DisplayVehicleFullInfo:
-                    //
+                    displayVehicleFullInfo();
                     break;
                 case eMenuOptions.ExitSystem:
                     //
@@ -105,7 +105,7 @@ Please enter the number corresponding to your choice: ");
 
         private void addNewVehicle()
         {
-            int licensePlateNumber = getLicensePlateNumber();
+            string licensePlateNumber = getLicensePlateNumber();
 
             if (m_Garage.IsVehicleInGarage(licensePlateNumber))
             {
@@ -202,7 +202,7 @@ Please enter the number corresponding to your choice: ");
 
         private void changeVehicleStatus()
         {
-            int licensePlateNumber = getLicensePlateNumber();
+            string licensePlateNumber = getLicensePlateNumber();
 
             if (m_Garage.IsVehicleInGarage(licensePlateNumber))
             {
@@ -222,6 +222,67 @@ Please enter the number corresponding to your choice: ");
 
                 m_Garage.ChangeVehicleStatus(licensePlateNumber, userPick);
 
+            }
+            else
+            {
+                Console.WriteLine("Vehicle is not in the garage");
+            }
+        }
+
+        private void inflateTiresToMaximum()
+        {
+            string licensePlateNumber = getLicensePlateNumber();
+
+            if (m_Garage.IsGarageEmpty())
+            {
+                printEmptyGarage();
+            }
+            else if(m_Garage.IsVehicleInGarage(licensePlateNumber))
+            {
+                m_Garage.InflateTiresToMaximum(licensePlateNumber);
+            }
+            else
+            {
+                Console.WriteLine("Vehicle is not in the garage");
+            }
+        }
+
+        private void refuelVehicle()
+        {
+            string licensePlateNumber = getLicensePlateNumber();
+
+            if (m_Garage.IsVehicleInGarage(licensePlateNumber))
+            {
+                if(m_Garage.IsVehicleEngineFuel(licensePlateNumber))
+                {
+                    FuelEngine.eFuelType fuelType = getDesiredTypeOfFuel(licensePlateNumber);
+                    if(m_Garage.IsFuelMatchVehicle(licensePlateNumber, fuelType))
+                    {
+                        float amountOfFuel = getDesired
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Vehicle's engine is electric.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Vehicle is not in the garage");
+            }
+        }
+
+        private void displayVehicleFullInfo()
+        {
+            string licensePlateNumber = getLicensePlateNumber();
+
+            if (m_Garage.IsGarageEmpty())
+            {
+                printEmptyGarage();
+            }
+            else if (m_Garage.IsVehicleInGarage(licensePlateNumber))
+            {
+                Console.WriteLine(m_Garage.GetVehicleDetails(licensePlateNumber));
             }
             else
             {
@@ -252,18 +313,14 @@ Please enter the number corresponding to your choice: ");
             Console.WriteLine("No vehicles in the garage");
         }
 
-        private int getLicensePlateNumber()
+        private string getLicensePlateNumber()
         {
-            int licenseNumber = 0;
             Console.WriteLine("please enter your license plate number:");
+            string licenseNumber = Console.ReadLine();
             while (true)
             {
-                string licensePlateNumberString = Console.ReadLine();
-                if (checkInputValidation(licensePlateNumberString))
-                {
-                    int.TryParse(licensePlateNumberString, out licenseNumber);
-                    break;
-                }
+                // if()
+                licenseNumber = Console.ReadLine();
                 Console.WriteLine("Invalid input, Please try again.");
             }
 
