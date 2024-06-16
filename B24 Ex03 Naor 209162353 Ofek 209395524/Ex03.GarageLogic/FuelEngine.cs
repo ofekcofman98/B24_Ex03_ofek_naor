@@ -14,7 +14,7 @@ namespace Ex03.GarageLogic
         Soler,
     }
 
-    internal class FuelEngine : Engine
+    public class FuelEngine : Engine
     {
         //private float m_CurrentAmountOfGas;
         //private readonly float  r_MaximalAmountOfGas;

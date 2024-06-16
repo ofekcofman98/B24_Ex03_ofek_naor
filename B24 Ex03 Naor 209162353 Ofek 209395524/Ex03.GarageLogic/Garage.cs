@@ -12,7 +12,7 @@ namespace Ex03.GarageLogic
 
         public bool IsVehicleInGarage(string i_LicensePlateNumber)
         {
-            return vehiclesInGarageDict.ContainsKey(i_LicensePlateNumber);
+            return m_VehiclesInGarageDict.ContainsKey(i_LicensePlateNumber);
         }
 
         public bool CheckVehicleTypeInputValidation(string i_InputString, out int io_InputNumber)
@@ -47,25 +47,12 @@ namespace Ex03.GarageLogic
 
         public void ChangeVehicleStatusToInRepair(string i_LicensePlate)
         {
-            vehiclesInGarageDict[i_LicensePlate].ChangeVehicleStatus(GarageVehicleInfo.eVehicleStatus.InRepair);
+            m_VehiclesInGarageDict[i_LicensePlate].ChangeVehicleStatus(GarageVehicleInfo.eVehicleStatus.InRepair);
         }
 
         public List<string> GetVehicleTypeList()
         {
             return VehicleCreator.GetVehiclesTypes();
-        }
-
-        public void AddNewVehicle(string i_LicensePlateNumber, string i_OwnerName, string i_OwnerPhoneNumber)
-        {
-            GarageVehicleInfo newVehicleInfo = new GarageVehicleInfo(i_OwnerName, i_OwnerPhoneNumber);
-
-            m_VehiclesInGarageDict.Add(i_LicensePlateNumber, newVehicleInfo);
-            newVehicleInfo.Vehicle = VehicleCreator.CreateNewVehicle(i_LicensePlateNumber); // TO DO
-        }
-
-        public void ResetVehicleStatus(string i_LicensePlateNumber)
-        {
-            m_VehiclesInGarageDict[i_LicensePlateNumber].ResetStatusToInRepair();
         }
 
         public List<int> GetLicensePlatesList()
@@ -113,12 +100,8 @@ namespace Ex03.GarageLogic
         {
             eVehicleType vehicleType = (eVehicleType)i_VehicleTypeNumber;
             Vehicle newVehicle = CreateNewVehicle(i_LicensePlate, vehicleType);
-            GarageVehicleInfo nameToChange = new GarageVehicleInfo();
-            nameToChange.OwnerName = i_OwnerName;
-            nameToChange.OwnerPhone = i_OwnerPhone;
-            nameToChange.Vehicle = newVehicle;
-            nameToChange.VehicleStatus = GarageVehicleInfo.eVehicleStatus.InRepair;
-            vehiclesInGarageDict.Add(i_LicensePlate,nameToChange);
+            GarageVehicleInfo nameToChange = new GarageVehicleInfo(i_OwnerName, i_OwnerPhone);
+            m_VehiclesInGarageDict.Add(i_LicensePlate,nameToChange);
         }
 
     }

@@ -105,7 +105,7 @@ Please enter the number corresponding to your choice: ");
 
         private void addNewVehicle()
         {
-            string licensePlate = GetLicensePlateNumber();
+            string licensePlate = getLicensePlateNumber();
 
             if (m_Garage.IsVehicleInGarage(licensePlate))
             {
@@ -126,7 +126,6 @@ Please enter the number corresponding to your choice: ");
 
         }
 
-
         private int getVehicleTypeNumber()
         {
             string vechicleTypeInputString;
@@ -134,11 +133,10 @@ Please enter the number corresponding to your choice: ");
             Console.WriteLine("vehicle types: ");
             PrintList(m_Garage.GetVehicleTypeList(), i_IsListNumbered: true);
             Console.WriteLine("PLease enter the vehicle's type: ");
-
             while (true)
             {
                 vechicleTypeInputString = Console.ReadLine();
-                if(!m_Garage.CheckVehicleTypeInputValidation(vechicleTypeInputString, out vechicleTypeInputNumber))
+                if (!m_Garage.CheckVehicleTypeInputValidation(vechicleTypeInputString, out vechicleTypeInputNumber))
                 {
                     Console.WriteLine("invalid input, try again");
                 }
@@ -147,8 +145,7 @@ Please enter the number corresponding to your choice: ");
                     break;
                 }
             }
-
-            return vehicleInput;
+            return vechicleTypeInputNumber;
         }
 
         private void displayLicensePlatesinGarage()
@@ -312,14 +309,14 @@ Please enter the number corresponding to your choice: ");
             Console.WriteLine("No vehicles in the garage");
         }
         
-        public string GetLicensePlateNumber()
+        private string getLicensePlateNumber()
         {
             string licenseNumberString;
             Console.WriteLine("please enter your license number:");
             while (true)
             {
                 licenseNumberString = Console.ReadLine();
-                if (CheckInputValidation(licenseNumberString))
+                if (checkInputValidation(licenseNumberString))
                 {
                     break;
                 }
