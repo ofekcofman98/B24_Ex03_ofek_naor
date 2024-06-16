@@ -2,27 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static Ex03.GarageLogic.VehicleCreator;
 
 namespace Ex03.GarageLogic
 {
     public class Garage
     {
-        private Dictionary<string, GarageVehicleInfo> m_VehiclesInGarageDict;
+        Dictionary<string, GarageVehicleInfo> m_VehiclesInGarageDict = new Dictionary<string, GarageVehicleInfo>();
 
-        public bool IsVehicleInGarage(string i_LicenseNumber)
+        public bool IsVehicleInGarage(string i_LicensePlateNumber)
         {
-            return m_VehiclesInGarageDict.ContainsKey(i_LicenseNumber);
+            return vehiclesInGarageDict.ContainsKey(i_LicensePlateNumber);
         }
 
-        public static bool CheckVehicleTypeInputValidation(string i_InputString)
+        public bool CheckVehicleTypeInputValidation(string i_InputString, out int io_InputNumber)
         {
             bool isValid = false;
-            int inputNumber = int.Parse(i_InputString);
-            if(inputNumber >= 1 && inputNumber <= VehicleCreator.GetNumOfVehiclesType()) // if number is in the range of static num of type 
+            if(int.TryParse(i_InputString, out io_InputNumber))
             {
-                isValid = true;
+                if(io_InputNumber >= 1 && io_InputNumber <= VehicleCreator.GetNumOfVehiclesType()) // if number is in the range of static num of type
+                {
+                    isValid = true;
+                }
             }
-
             return isValid;
         }
 
@@ -43,7 +45,12 @@ namespace Ex03.GarageLogic
             return statusList;
         }
 
-        public static List<string> GetVehicleTypeList()
+        public void ChangeVehicleStatusToInRepair(string i_LicensePlate)
+        {
+            vehiclesInGarageDict[i_LicensePlate].ChangeVehicleStatus(GarageVehicleInfo.eVehicleStatus.InRepair);
+        }
+
+        public List<string> GetVehicleTypeList()
         {
             return VehicleCreator.GetVehiclesTypes();
         }
@@ -102,5 +109,17 @@ namespace Ex03.GarageLogic
         {
             return m_VehiclesInGarageDict[i_LicensePlateNumber].ToString();
         }
+        public void AddNewVehicleToGarage(string i_LicensePlate, int i_VehicleTypeNumber, string i_OwnerName, string i_OwnerPhone)
+        {
+            eVehicleType vehicleType = (eVehicleType)i_VehicleTypeNumber;
+            Vehicle newVehicle = CreateNewVehicle(i_LicensePlate, vehicleType);
+            GarageVehicleInfo nameToChange = new GarageVehicleInfo();
+            nameToChange.OwnerName = i_OwnerName;
+            nameToChange.OwnerPhone = i_OwnerPhone;
+            nameToChange.Vehicle = newVehicle;
+            nameToChange.VehicleStatus = GarageVehicleInfo.eVehicleStatus.InRepair;
+            vehiclesInGarageDict.Add(i_LicensePlate,nameToChange);
+        }
+
     }
 }

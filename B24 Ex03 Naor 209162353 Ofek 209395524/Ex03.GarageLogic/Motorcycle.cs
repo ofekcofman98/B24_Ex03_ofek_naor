@@ -9,6 +9,9 @@ namespace Ex03.GarageLogic
     {
         private int m_EngineVolume;
         private eLicenseType m_LicenseType;
+
+        public const int k_NumberOfWheels = 2;
+
         private enum eLicenseType
         {
             B1,
@@ -24,5 +27,9 @@ namespace Ex03.GarageLogic
             motorcycleInfo.AppendLine($"License Type: {m_LicenseType}");
             return motorcycleInfo.ToString();
         }
+        public Motorcycle(string i_LicensePlate, Engine i_Engine) : base(i_LicensePlate, i_Engine)
+        {
+        }
+
     }
 }

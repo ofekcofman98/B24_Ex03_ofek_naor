@@ -19,16 +19,11 @@ namespace Ex03.GarageLogic
             m_VehicleStatus = eVehicleStatus.InRepair;
         }
 
-        internal enum eVehicleStatus
+        public enum eVehicleStatus
         {
             InRepair = 1,
             Repaired = 2,
             Paid = 3,
-        }
-
-        internal void ResetStatusToInRepair()
-        {
-            m_VehicleStatus = eVehicleStatus.InRepair;
         }
 
         public override string ToString()
@@ -43,6 +38,28 @@ namespace Ex03.GarageLogic
             return garageVehicleInfo.ToString();
         }
 
+        public string OwnerName
+        {
+            get
+            {
+                return m_OwnerName;
+            }
+            set
+            {
+                m_OwnerName = value;
+            }
+        }
+        public string OwnerPhone
+        {
+            get
+            {
+                return m_OwnerPhone;
+            }
+            set
+            {
+                m_OwnerPhone = value;
+            }   
+        }
         public Vehicle Vehicle
         {
             get
@@ -67,5 +84,9 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public void ChangeVehicleStatus(eVehicleStatus e_Status)
+        {
+            this.VehicleStatus = e_Status;
+        }
     }
 }

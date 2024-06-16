@@ -13,6 +13,12 @@ namespace Ex03.GarageLogic
         protected float m_EnergyPercentage;
         protected List<Wheel> m_Wheels;
 
+        protected Vehicle(string i_LicensePlate, Engine i_Engine)
+        {
+            m_LicensePlate = i_LicensePlate;
+            m_Engine = i_Engine;
+            // continue
+        }
 
         public string ModelName
         {

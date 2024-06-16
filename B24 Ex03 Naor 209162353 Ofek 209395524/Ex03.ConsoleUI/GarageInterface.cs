@@ -30,7 +30,7 @@ namespace Ex03.ConsoleUI
             printWelcome();
             printGarageMenu(); 
             getMenuChoice();
-            getVehicleType();// why? 
+            getVehicleTypeNumber();
         }
 
         private void printWelcome()
@@ -38,7 +38,7 @@ namespace Ex03.ConsoleUI
             Console.WriteLine("Welcome to laGarage");
         }
 
-        private void printGarageMenu()
+        private void printGarageMenu() // make it dynamic
         {
             string garageMenu = string.Format(@"
 Garage Menu:
@@ -105,42 +105,40 @@ Please enter the number corresponding to your choice: ");
 
         private void addNewVehicle()
         {
-            string licensePlateNumber = getLicensePlateNumber();
+            string licensePlate = GetLicensePlateNumber();
 
-            if (m_Garage.IsVehicleInGarage(licensePlateNumber))
+            if (m_Garage.IsVehicleInGarage(licensePlate))
             {
                 Console.WriteLine("The vehicle is already in the garage");
-                m_Garage.ResetVehicleStatus(licensePlateNumber);
+                m_Garage.ChangeVehicleStatusToInRepair(licensePlate);
             }
             else
             {
+                int vechicleTypeInputNumber = getVehicleTypeNumber();
+
                 Console.WriteLine("Please enter the owner's name:");
                 string ownerName = Console.ReadLine();
-
                 Console.WriteLine("Please enter the owner's phone number:");
                 string ownerPhoneNumber = Console.ReadLine();
+                m_Garage.AddNewVehicleToGarage(licensePlate, vechicleTypeInputNumber, ownerName, ownerPhoneNumber);
 
-                getVehicleType();
-                m_Garage.AddNewVehicle(licensePlateNumber, ownerName, ownerPhoneNumber); // TO DO
-
-                // Get more SPECIFIC details of the vehicle 
             }
 
         }
 
-        private string getVehicleType()
+
+        private int getVehicleTypeNumber()
         {
-            string vehicleInput;
+            string vechicleTypeInputString;
+            int vechicleTypeInputNumber;
             Console.WriteLine("vehicle types: ");
-            PrintList(Garage.GetVehicleTypeList(), i_IsListNumbered: true);
+            PrintList(m_Garage.GetVehicleTypeList(), i_IsListNumbered: true);
             Console.WriteLine("PLease enter the vehicle's type: ");
 
             while (true)
             {
-                vehicleInput = Console.ReadLine();
-                // first validation
-                // is in garage validation
-                if (!Garage.CheckVehicleTypeInputValidation(vehicleInput))
+                vechicleTypeInputString = Console.ReadLine();
+                if(!m_Garage.CheckVehicleTypeInputValidation(vechicleTypeInputString, out vechicleTypeInputNumber))
                 {
                     Console.WriteLine("invalid input, try again");
                 }
@@ -290,6 +288,7 @@ Please enter the number corresponding to your choice: ");
             }
         }
 
+
         public static void PrintList<T>(List<T> i_List, bool i_IsListNumbered = false) // Fix names
         {
             int i = 1;
@@ -312,19 +311,21 @@ Please enter the number corresponding to your choice: ");
         {
             Console.WriteLine("No vehicles in the garage");
         }
-
-        private string getLicensePlateNumber()
+        
+        public string GetLicensePlateNumber()
         {
-            Console.WriteLine("please enter your license plate number:");
-            string licenseNumber = Console.ReadLine();
+            string licenseNumberString;
+            Console.WriteLine("please enter your license number:");
             while (true)
             {
-                // if()
-                licenseNumber = Console.ReadLine();
-                Console.WriteLine("Invalid input, Please try again.");
+                licenseNumberString = Console.ReadLine();
+                if (CheckInputValidation(licenseNumberString))
+                {
+                    break;
+                }
+                Console.WriteLine("valid input please");
             }
-
-            return licenseNumber;
+            return licenseNumberString;
         }
 
         private bool checkInputValidation(string i_LicenseNumberString)
@@ -335,7 +336,7 @@ Please enter the number corresponding to your choice: ");
             {
                 foreach (char c in i_LicenseNumberString)
                 {
-                    if (!char.IsDigit(c))
+                    if (!char.IsDigit(c) && !char.IsUpper(c))
                     {
                         isValid = false;
                         break;

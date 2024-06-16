@@ -9,6 +9,13 @@ namespace Ex03.GarageLogic
     {
         private eCarColor m_CarColor;
         private eNumberOfDoors m_NumOfDoors;
+
+        public const int k_NumberOfWheels = 5;
+
+        public Car(string i_LicensePlate, Engine i_Engine) : base(i_LicensePlate, i_Engine)
+        {
+            //
+        }
         private enum eCarColor
         {
             Yellow = 1,
@@ -32,5 +39,9 @@ namespace Ex03.GarageLogic
             carInfo.AppendLine($"Number of Doors: {m_NumOfDoors}");
             return carInfo.ToString();
         }
+        //public static Car CreateNewCar(string i_LicensePlate, Engine i_Engine)
+        //{
+        //    return new Car(i_LicensePlate, i_Engine);
+        //}
     }
 }
