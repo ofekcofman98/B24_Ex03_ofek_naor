@@ -8,7 +8,14 @@ namespace Ex03.GarageLogic
 {
     public class Garage
     {
+        private const int k_GarageEmpty = 0;
+
         Dictionary<string, GarageVehicleInfo> m_VehiclesInGarageDict = new Dictionary<string, GarageVehicleInfo>();
+
+        public bool IsGarageEmpty()
+        {
+            return m_VehiclesInGarageDict.Count == 0;
+        }
 
         public bool IsVehicleInGarage(string i_LicensePlateNumber)
         {
@@ -69,6 +76,12 @@ namespace Ex03.GarageLogic
 
         public List<int> GetLicensePlatesListByFilter(int i_UserChoice)
         {
+
+            if (!(i_UserChoice >= (int)GarageVehicleInfo.eVehicleStatus.InRepair && i_UserChoice <= (int)GarageVehicleInfo.eVehicleStatus.Paid))
+            {// argument?
+                throw new ValueOutOfRangeException((float)GarageVehicleInfo.eVehicleStatus.InRepair, (float)GarageVehicleInfo.eVehicleStatus.Paid))
+            }
+
             List<int> licensePlatesList = new List<int>(m_VehiclesInGarageDict.Count);
 
             foreach (KeyValuePair<string, GarageVehicleInfo> garageVehicleInfo in m_VehiclesInGarageDict)
@@ -84,6 +97,11 @@ namespace Ex03.GarageLogic
 
         public void ChangeVehicleStatus(string i_LicensePlateNumber, int i_UserPick)
         {
+            if (!(i_UserPick >= (int)GarageVehicleInfo.eVehicleStatus.InRepair && i_UserPick <= (int)GarageVehicleInfo.eVehicleStatus.Paid))
+            {// argument?
+                throw new ValueOutOfRangeException((float)GarageVehicleInfo.eVehicleStatus.InRepair, (float)GarageVehicleInfo.eVehicleStatus.Paid))
+            }
+
             m_VehiclesInGarageDict[i_LicensePlateNumber].VehicleStatus = (GarageVehicleInfo.eVehicleStatus)i_UserPick;
         }
 
@@ -104,5 +122,14 @@ namespace Ex03.GarageLogic
             m_VehiclesInGarageDict.Add(i_LicensePlate,nameToChange);
         }
 
+        public void AddEnergy(string i_LicensePlateNumber, FuelEngine.eFuelType? i_FuelType, float i_AmountOfEnergy)
+        {
+            m_VehiclesInGarageDict[i_LicensePlateNumber].Vehicle.Engine.AddEnergy(
+                i_LicensePlateNumber,
+                i_FuelType,
+                i_AmountOfEnergy);
+
+            
+        }
     }
 }

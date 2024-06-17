@@ -10,7 +10,6 @@ namespace Ex03.GarageLogic
         protected string m_ModelName;
         protected string m_LicensePlate;
         protected Engine m_Engine;
-        protected float m_EnergyPercentage;
         protected List<Wheel> m_Wheels;
 
         protected Vehicle(string i_LicensePlate, Engine i_Engine)
@@ -90,7 +89,6 @@ namespace Ex03.GarageLogic
             StringBuilder vehicleInfo = new StringBuilder();
             vehicleInfo.AppendLine($"Model Name: {m_ModelName}");
             vehicleInfo.AppendLine($"License Plate: {m_LicensePlate}");
-            vehicleInfo.AppendLine($"Energy Percentage: {m_EnergyPercentage}%");
             vehicleInfo.AppendLine($"Engine Details: {m_Engine}");
             vehicleInfo.AppendLine("Tires Details:");
 

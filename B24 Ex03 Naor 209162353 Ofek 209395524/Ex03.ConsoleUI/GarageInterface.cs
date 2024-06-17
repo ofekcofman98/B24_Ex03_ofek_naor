@@ -4,6 +4,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security;
 using System.Text;
 using Ex03.GarageLogic;
 
@@ -12,6 +13,7 @@ namespace Ex03.ConsoleUI
     public class GarageInterface
     {
         private Garage m_Garage = new Garage();
+        private bool m_IsSystemQuit;
 
         private enum eMenuOptions
         {
@@ -28,14 +30,37 @@ namespace Ex03.ConsoleUI
         public void GarageRun()
         {
             printWelcome();
-            printGarageMenu(); 
-            getMenuChoice();
-            getVehicleTypeNumber();
+
+            while(!m_IsSystemQuit)
+            {
+                printGarageMenu();
+
+                try
+                {
+                    eMenuOptions userMenuChoice = getMenuChoice();
+                    userMenuChoiceManager(userMenuChoice);
+                }
+                catch(Exception exception)
+                {
+                    Console.WriteLine(exception.Message);
+                }
+            }
+
+            printGoodbye();
         }
 
         private void printWelcome()
         {
-            Console.WriteLine("Welcome to laGarage");
+            Console.WriteLine("·································································\r\n: \u2566 \u2566\u250c\u2500\u2510\u252c  \u250c\u2500\u2510\u250c\u2500\u2510\u250c\u252c\u2510\u250c\u2500\u2510  \u250c\u252c\u2510\u250c\u2500\u2510  \u2554\u2566\u2557\u252c \u252c\u250c\u2500\u2510  \u2554\u2550\u2557\u250c\u2500\u2510\u252c\u2500\u2510\u250c\u2500\u2510\u250c\u2500\u2510\u250c\u2500\u2510\u252c :\r\n: \u2551\u2551\u2551\u251c\u2524 \u2502  \u2502  \u2502 \u2502\u2502\u2502\u2502\u251c\u2524    \u2502 \u2502 \u2502   \u2551 \u251c\u2500\u2524\u251c\u2524   \u2551 \u2566\u251c\u2500\u2524\u251c\u252c\u2518\u251c\u2500\u2524\u2502 \u252c\u251c\u2524 \u2502 :\r\n: \u255a\u2569\u255d\u2514\u2500\u2518\u2534\u2500\u2518\u2514\u2500\u2518\u2514\u2500\u2518\u2534 \u2534\u2514\u2500\u2518   \u2534 \u2514\u2500\u2518   \u2569 \u2534 \u2534\u2514\u2500\u2518  \u255a\u2550\u255d\u2534 \u2534\u2534\u2514\u2500\u2534 \u2534\u2514\u2500\u2518\u2514\u2500\u2518o :\r\n·································································");
+            Console.WriteLine("        _______\r\n       //  ||\\ \\\r\n _____//___||_\\ \\___\r\n )  _          _    \\\r\n |_/ \\________/ \\___|\r\n___\\_/________\\_/______");
+            Console.WriteLine();
+        }
+
+        private void printGoodbye()
+        {
+            Console.WriteLine();
+            Console.WriteLine("\u2554\u2550\u2557\u250c\u2500\u2510\u250c\u2500\u2510\u250c\u252c\u2510\u250c\u2510 \u252c \u252c\u250c\u2500\u2510\u252c\r\n\u2551 \u2566\u2502 \u2502\u2502 \u2502 \u2502\u2502\u251c\u2534\u2510\u2514\u252c\u2518\u251c\u2524 \u2502\r\n\u255a\u2550\u255d\u2514\u2500\u2518\u2514\u2500\u2518\u2500\u2534\u2518\u2514\u2500\u2518 \u2534 \u2514\u2500\u2518o");
+            Console.WriteLine();
         }
 
         private void printGarageMenu() // make it dynamic
@@ -57,19 +82,21 @@ Please enter the number corresponding to your choice: ");
 
         }
 
-        private int getMenuChoice()
+        private eMenuOptions getMenuChoice()
         {
             string menuChoiceString = Console.ReadLine();
-            int.TryParse(menuChoiceString, out int menuChoice);
 
-            while(menuChoice < (int)eMenuOptions.AddNewVehicle || menuChoice > (int)eMenuOptions.ExitSystem) // k_
+            if(!int.TryParse(menuChoiceString, out int menuChoice))
             {
-                Console.WriteLine($"Invalid input. Please input a number between {eMenuOptions.AddNewVehicle} and {eMenuOptions.ExitSystem}");
-                menuChoiceString = Console.ReadLine();
-                int.TryParse(menuChoiceString, out menuChoice);
+                throw new FormatException($"Invalid input, please enter a number between {(int)eMenuOptions.AddNewVehicle} and {(int)eMenuOptions.ExitSystem}");
             }
 
-            return menuChoice;
+            if (!(menuChoice >= (int)eMenuOptions.AddNewVehicle && menuChoice <= (int)eMenuOptions.ExitSystem)) // change to argument? 
+            {
+                throw new ValueOutOfRangeException((float)eMenuOptions.AddNewVehicle, (float)eMenuOptions.ExitSystem);
+            }
+
+            return (eMenuOptions)menuChoice;
         }
 
         private void userMenuChoiceManager(eMenuOptions i_MenuChoice)
@@ -80,7 +107,7 @@ Please enter the number corresponding to your choice: ");
                     addNewVehicle();
                     break;
                 case eMenuOptions.DisplayLicensePlates:
-                    displayLicensePlatesinGarage();
+                    displayLicensePlatesInGarage();
                     break;
                 case eMenuOptions.ChangeVehicleStatus:
                     changeVehicleStatus();
@@ -92,13 +119,13 @@ Please enter the number corresponding to your choice: ");
                     refuelVehicle();
                     break;
                 case eMenuOptions.ChargeVehicleBattery:
-                    //
+                    chargeVehicle();
                     break;
                 case eMenuOptions.DisplayVehicleFullInfo:
                     displayVehicleFullInfo();
                     break;
                 case eMenuOptions.ExitSystem:
-                    //
+                    m_IsSystemQuit = true;
                     break;
             }
         }
@@ -117,11 +144,11 @@ Please enter the number corresponding to your choice: ");
                 int vehicleTypeInputNumber = getVehicleTypeNumber();
 
                 Console.WriteLine("Please enter the owner's name:");
-                string ownerName = Console.ReadLine();
+                string ownerName = Console.ReadLine(); // need to check validation (no numbers, no "enter")
                 Console.WriteLine("Please enter the owner's phone number:");
-                string ownerPhoneNumber = Console.ReadLine();
-                m_Garage.AddNewVehicleToGarage(licensePlate, vehicleTypeInputNumber, ownerName, ownerPhoneNumber);
+                string ownerPhoneNumber = Console.ReadLine();  // need to check validation (no letters, no "enter")
 
+                m_Garage.AddNewVehicleToGarage(licensePlate, vehicleTypeInputNumber, ownerName, ownerPhoneNumber);
             }
 
         }
@@ -148,7 +175,7 @@ Please enter the number corresponding to your choice: ");
             return vechicleTypeInputNumber;
         }
 
-        private void displayLicensePlatesinGarage()
+        private void displayLicensePlatesInGarage()
         {
             if(m_Garage.IsGarageEmpty())
             {
@@ -158,6 +185,7 @@ Please enter the number corresponding to your choice: ");
             {
                 Console.WriteLine("Do you want to filter the vehicles by status? (y/n)");
                 string userChoice = Console.ReadLine().ToLower();
+
                 while (userChoice != "y" && userChoice != "n")
                 {
                     Console.WriteLine("Invalid input. Please enter 'y' or 'n'.");
@@ -171,28 +199,24 @@ Please enter the number corresponding to your choice: ");
                 }
                 else
                 {
-                    displayFilteredLicensePlatesinGarage();
+                    displayFilteredLicensePlatesInGarage();
                 }
             }  
 
         }
 
-        private void displayFilteredLicensePlatesinGarage()
+        private void displayFilteredLicensePlatesInGarage()
         {
-            Console.WriteLine("Filter by vehicles in repair (1), vehicles repaired (2) and vehicles that their repair was paid (3)");
+            Console.WriteLine("Filter by vehicles in repair (1), vehicles repaired (2) and vehicles that their repair was paid (3)"); // MAKE DYNAMIC
             string userChoice = Console.ReadLine();
-            int userPick;
 
-            while (!int.TryParse(userChoice, out userPick) || (userChoice != "1" && userChoice != "2" && userChoice != "3") )
+            if (!int.TryParse(userChoice, out int userPick))
             {
-                Console.WriteLine("Invalid input. Please enter (1), (2) or (3).");
-                userChoice = Console.ReadLine();
+                throw new FormatException(message: "Please enter an integer.");
             }
 
             List<int> licensePlates = m_Garage.GetLicensePlatesListByFilter(userPick);
             PrintList(licensePlates);
-
-
         }
 
         private void changeVehicleStatus()
@@ -202,17 +226,14 @@ Please enter the number corresponding to your choice: ");
             if (m_Garage.IsVehicleInGarage(licensePlateNumber))
             {
                 Console.WriteLine($"The current status of the car is {m_Garage.GetVehicleStatus(licensePlateNumber)}.");
-                Console.WriteLine("Please choose the desired vehicle status: (1), (2) or (3)");
+                Console.WriteLine("Please choose the desired vehicle status: (1), (2) or (3)"); // MAKE DYNAMIC
                 PrintList(m_Garage.GetVehicleStatusList());
 
-                // DUPLICATION OF CODE FROM displayFilteredLicensePlatesinGarage() !!!!!!
-                // Maybe move second condition to logics? // Maybe use Exceptions?
                 string userChoice = Console.ReadLine();
-                int userPick;
-                while (!int.TryParse(userChoice, out userPick) || (userChoice != "1" && userChoice != "2" && userChoice != "3"))
+
+                if (!int.TryParse(userChoice, out int userPick))
                 {
-                    Console.WriteLine("Invalid input. Please enter (1), (2) or (3).");
-                    userChoice = Console.ReadLine();
+                    throw new FormatException(message: "Please enter an integer.");
                 }
 
                 m_Garage.ChangeVehicleStatus(licensePlateNumber, userPick);
@@ -232,7 +253,7 @@ Please enter the number corresponding to your choice: ");
             {
                 printEmptyGarage();
             }
-            else if(m_Garage.IsVehicleInGarage(licensePlateNumber))
+            else if (m_Garage.IsVehicleInGarage(licensePlateNumber))
             {
                 m_Garage.InflateTiresToMaximum(licensePlateNumber);
             }
@@ -246,25 +267,72 @@ Please enter the number corresponding to your choice: ");
         {
             string licensePlateNumber = getLicensePlateNumber();
 
-            if (m_Garage.IsVehicleInGarage(licensePlateNumber))
+            if(m_Garage.IsGarageEmpty())
             {
-                if(m_Garage.IsVehicleEngineFuel(licensePlateNumber))
-                {
-                    FuelEngine.eFuelType fuelType = getDesiredTypeOfFuel(licensePlateNumber);
-                    if(m_Garage.IsFuelMatchVehicle(licensePlateNumber, fuelType))
-                    {
-                        float amountOfFuel = getDesired
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Vehicle's engine is electric.");
-                }
+                printEmptyGarage();
+            }
+            else if (m_Garage.IsVehicleInGarage(licensePlateNumber))
+            {
+                FuelEngine.eFuelType fuelType = getDesiredTypeOfFuel();
+                float amountOfFuel = getDesiredAMountOfFuel();
+
+                m_Garage.AddEnergy(licensePlateNumber, fuelType, amountOfFuel);
             }
             else
             {
                 Console.WriteLine("Vehicle is not in the garage");
             }
+        }
+
+        private FuelEngine.eFuelType getDesiredTypeOfFuel()
+        {
+            Console.WriteLine("Please enter the desired fuel type from the below:");
+            PrintList(FuelEngine.GetFuelTypesList());
+
+            string userFuelChoice = Console.ReadLine();
+            // parse validation MISSING + range validation MISSING
+            return (FuelEngine.eFuelType)(int.Parse(userFuelChoice));
+        }
+
+        private float getDesiredAMountOfFuel()
+        {
+            Console.WriteLine("Please enter your desired amount of fuel in litres:");
+            string userFuelAmountChoice = Console.ReadLine();
+            // parse validation MISSING
+            return float.Parse(userFuelAmountChoice);
+        }
+
+        private void chargeVehicle()
+        {
+            string licensePlateNumber = getLicensePlateNumber();
+
+            if (m_Garage.IsGarageEmpty())
+            {
+                printEmptyGarage();
+            }
+            else if (m_Garage.IsVehicleInGarage(licensePlateNumber))
+            {
+                float minutesOfElectricity = getDesiredAmountOfElectricityInMinutes();
+                float hoursOfElectricity = minutesOfElectricity / 60;
+
+                m_Garage.AddEnergy(licensePlateNumber, null, hoursOfElectricity);
+            }
+            else
+            {
+                Console.WriteLine("Vehicle is not in the garage");
+            }
+        }
+
+        private float getDesiredAmountOfElectricityInMinutes()
+        {
+            Console.WriteLine("Please enter your desired amount of electricity in minutes:");
+            string userMinutesAmountChoice = Console.ReadLine();
+            if(!float.TryParse(userMinutesAmountChoice, out float minutesResult))
+            {
+                throw new FormatException(message: "Invalid Input, please enter number of minutes.");
+            }
+
+            return minutesResult;
         }
 
         private void displayVehicleFullInfo()
@@ -306,13 +374,14 @@ Please enter the number corresponding to your choice: ");
 
         private void printEmptyGarage()
         {
-            Console.WriteLine("No vehicles in the garage");
+            Console.WriteLine("No vehicles in the garage.");
         }
         
-        private string getLicensePlateNumber()
+        private string getLicensePlateNumber() // NEED TO USE EXCEPTIONS!
         {
             string licenseNumberString;
-            Console.WriteLine("please enter your license number:");
+            Console.WriteLine("please enter your license plate number:");
+
             while (true)
             {
                 licenseNumberString = Console.ReadLine();
@@ -333,7 +402,7 @@ Please enter the number corresponding to your choice: ");
             {
                 foreach (char c in i_LicenseNumberString)
                 {
-                    if (!char.IsDigit(c) && !char.IsUpper(c))
+                    if (!char.IsLetterOrDigit(c))
                     {
                         isValid = false;
                         break;

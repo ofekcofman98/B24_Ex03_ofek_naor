@@ -6,14 +6,6 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    public enum eFuelType
-    {
-        Octan95 = 1,
-        Octan98,
-        Octan96,
-        Soler,
-    }
-
     public class FuelEngine : Engine
     {
         //private float m_CurrentAmountOfGas;
@@ -28,6 +20,14 @@ namespace Ex03.GarageLogic
         public const float k_LiterFuelTankForCar = 45f;
         public const float k_LiterFuelTankForTruck = 120f;
 
+
+        public enum eFuelType
+        {
+            Octan95 = 1,
+            Octan98,
+            Octan96,
+            Soler,
+        }
 
         public FuelEngine(float i_MaximalAmountOfGas, eFuelType i_FuelType) : base(i_MaximalAmountOfGas)
         {
@@ -62,8 +62,14 @@ namespace Ex03.GarageLogic
             Console.WriteLine($"{CurrentAmountOfGas} liters of fuel left");
         }
 
+        public static List<eFuelType> GetFuelTypesList()
+        {
+            List<eFuelType> fuelTypesList = Enum.GetValues(typeof(eFuelType)).Cast<eFuelType>().ToList();
 
-        public void RefuelTank(float i_LitersToAdd, eFuelType i_FuelType)
+            return fuelTypesList;
+        }
+
+        public void RefuelTank(float i_LitersToAdd, eFuelType i_FuelType) // METHOD NOT NEEDED !!!
         {
             if(i_FuelType == this.FuelType)
             {
@@ -73,6 +79,29 @@ namespace Ex03.GarageLogic
             {
                 // exeption of not the same fuel type
             }
+        }
+
+        public override void AddEnergy(string i_LicensePlateNumber, eFuelType? i_FuelType, float i_AmountOfFuel)
+        {
+            if(i_FuelType == null)
+            {
+                throw new ArgumentException(message: "Can't charge a fuel engine vehicle.");
+            }
+
+            if (i_FuelType != m_FuelType)
+            {
+                throw new ArgumentException(message: $"Wrong type of fuel. Please refuel with {m_FuelType}.");
+            }
+
+            if(i_AmountOfFuel < k_MinimumAmountOfEnergy || m_CurrentAmountOfEnergy + i_AmountOfFuel > r_EnergyCapacity)
+            {
+                float topAmountOfGas = r_EnergyCapacity - m_CurrentAmountOfEnergy;
+                throw new ValueOutOfRangeException(k_MinimumAmountOfEnergy, topAmountOfGas);
+            }
+
+            m_CurrentAmountOfEnergy += i_AmountOfFuel;
+
+            m_EnergyPercentage = (m_CurrentAmountOfEnergy / r_EnergyCapacity) * 10;
         }
     }
 }
