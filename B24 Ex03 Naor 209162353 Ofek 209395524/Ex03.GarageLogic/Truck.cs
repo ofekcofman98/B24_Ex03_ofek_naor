@@ -15,13 +15,6 @@ namespace Ex03.GarageLogic
         private const string k_DoesCarryHazardousMaterials = "does carry hazzardous material";
         private const string k_LagageVolume = "laggage volume";
 
-
-        //public override Dictionary<string, string> GetSpecificData()
-        //{
-
-        //}
-        //public override Dictionary<string, string> SpecificData { get; }
-
         public override string ToString()
         {
             StringBuilder truckInfo = new StringBuilder(base.ToString());
@@ -33,25 +26,9 @@ namespace Ex03.GarageLogic
 
         public override void SetSpecificData()
         {
-            Console.WriteLine($"Please enter {k_DoesCarryHazardousMaterials} (y/n)");
-            string userChoice = Console.ReadLine().ToLower();
-            while (userChoice != "y" && userChoice != "n")
-            {
-                Console.WriteLine("Invalid input. Please enter 'y' or 'n'.");
-                userChoice = Console.ReadLine().ToLower();
-            }
-
-            if (userChoice == "n")
-            {
-                m_DoesCarryHazardousMaterials = false;
-            }
-            else
-            {
-                m_DoesCarryHazardousMaterials = true;
-            }
-
-
-            Console.WriteLine($"Please enter {k_LagageVolume}");
+            this.DoesCarryHazardousMaterials = Utilities.GetYesOrNoFromUser(k_DoesCarryHazardousMaterials);
+            
+            Utilities.PrintInputRequest(k_LagageVolume);
             string i_InputString = Console.ReadLine();
             int i_Input;
             int.TryParse(i_InputString, out i_Input);

@@ -23,14 +23,17 @@ namespace Ex03.GarageLogic
             A = 4,
         }
 
+        public static List<string> GetLicenseTypeList()
+        {
+            return GetEnumKeys(typeof(eLicenseType));
+        }
+
         public Motorcycle(string i_LicensePlate, Engine i_Engine) : base(i_LicensePlate, i_Engine)
         {
             for(int i = 0; i < k_NumberOfWheels; i++)
             {
                 m_WheelsList.Add(new Wheel(Wheel.k_MaximumAirPressureForMotorcycle));
             }
-            //m_SpecificData.Add(k_EngineVolume, string.Empty);
-            //m_SpecificData.Add(k_LicenseType, string.Empty);
         }
 
         public int EngineVolume
@@ -59,26 +62,11 @@ namespace Ex03.GarageLogic
 
         public override void SetSpecificData()
         {
-            Console.WriteLine($"Please enter {k_LicenseType}: ");
-            PrintList(GetLicenseTypeList(), i_IsListNumbered: true);
-            int i_LicenseTypeChoice;
-            while (true)
-            {
-                string licenseTypeChoiceString = Console.ReadLine();
-                int.TryParse(licenseTypeChoiceString, out i_LicenseTypeChoice);
+            Utilities.PrintInputRequest(k_LicenseType);
+            Utilities.PrintList(GetLicenseTypeList(), i_IsListNumbered: true);
+            this.LicenseType = (eLicenseType)Utilities.ChooseFromEnumList(GetLicenseTypeList());
 
-                if (!(i_LicenseTypeChoice >= 1 && i_LicenseTypeChoice <= GetLicenseTypeList().Count))
-                {
-                    Console.WriteLine($"Invalid input. Please input a number between 1 and {GetLicenseTypeList().Count}");
-                }
-                else
-                {
-                    break;
-                }
-            }
-            this.LicenseType = (eLicenseType)i_LicenseTypeChoice;
-
-            Console.WriteLine($"Please enter {k_EngineVolume}: ");
+            Utilities.PrintInputRequest(k_EngineVolume);
             string i_EngineVolumeString = Console.ReadLine();
             int i_EngineVolume;
             int.TryParse(i_EngineVolumeString, out i_EngineVolume);
@@ -86,20 +74,6 @@ namespace Ex03.GarageLogic
             // validation !!!!
             this.EngineVolume = i_EngineVolume;
         }
-
-
-
-        //public override Dictionary<string, string> GetSpecificData()
-        //{
-
-        //}
-        //public override Dictionary<string, string> SpecificData { get;}
-
-        public static List<string> GetLicenseTypeList()
-        {
-            return GetEnumKeys(typeof(eLicenseType));
-        }
-
         
         public override string ToString()
         {

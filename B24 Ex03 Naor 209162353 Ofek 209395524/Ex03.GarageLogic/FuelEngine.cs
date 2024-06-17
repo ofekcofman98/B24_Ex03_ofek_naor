@@ -8,14 +8,13 @@ namespace Ex03.GarageLogic
 {
     public class FuelEngine : Engine
     {
-        //private float m_CurrentAmountOfGas;
-        //private readonly float  r_MaximalAmountOfGas;
         private readonly eFuelType m_FuelType; // readonly?
 
         public const eFuelType k_FuelTypeForMotorcycle = eFuelType.Octan98;
         public const eFuelType k_FuelTypeForCar = eFuelType.Octan95;
         public const eFuelType k_FuelTypeForTruck = eFuelType.Soler;
 
+        public const string k_FueledEnergy = "gas";
         public const float k_LiterFuelTankForMotorcycle = 5.5f;
         public const float k_LiterFuelTankForCar = 45f;
         public const float k_LiterFuelTankForTruck = 120f;
@@ -31,7 +30,7 @@ namespace Ex03.GarageLogic
 
         public FuelEngine(float i_MaximalAmountOfGas, eFuelType i_FuelType) : base(i_MaximalAmountOfGas)
         {
-
+            
         }
 
         public float CurrentAmountOfGas
@@ -60,6 +59,11 @@ namespace Ex03.GarageLogic
         public override void PrintCurrentUnitsOfMeasurement()
         {
             Console.WriteLine($"{CurrentAmountOfGas} liters of fuel left");
+        }
+
+        public override string GetTypeOfEnergy()
+        {
+            return k_FueledEnergy;
         }
 
         public static List<eFuelType> GetFuelTypesList()

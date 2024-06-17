@@ -34,10 +34,15 @@ namespace Ex03.GarageLogic
             return new List<string>(keys);
         }
 
-        public static int ChooseFromEnumList(string i_EnumTitle, List<string> i_EnumList)
+        public static void PrintInputRequest(string i_String)
         {
-            Console.WriteLine($"Please enter {i_EnumTitle}: ");
-            PrintList(i_EnumList, i_IsListNumbered: true);
+            Console.WriteLine($"Please enter {i_String}: ");
+        }
+
+        public static int ChooseFromEnumList(/*string i_EnumTitle, */List<string> i_EnumList)
+        {
+            //Console.WriteLine($"Please enter {i_EnumTitle}: ");
+            //PrintList(i_EnumList, i_IsListNumbered: true);
             int i_Choice;
 
         //while (true)

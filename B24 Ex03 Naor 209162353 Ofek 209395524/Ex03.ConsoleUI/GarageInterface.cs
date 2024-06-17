@@ -151,11 +151,24 @@ Please enter the number corresponding to your choice: ");
                 Console.WriteLine("Please enter model name");
                 string modelName = Console.ReadLine();
                 // set !!!
+                getSpecificData(licensePlate);
+                
+                Console.WriteLine("Please enter air pressure for the wheels");
+                string  airPressureString = Console.ReadLine();
+                // validation for: float
+                //                 in range (between 0 and EnergyCapacity)
+                float airPressure = float.Parse(airPressureString);
+                m_Garage.SetAirPressureToAllWheels(licensePlate, airPressure);
 
+                Console.WriteLine($"Please enter current amount of {m_Garage.GetTypeOfEnergy(licensePlate)}");
+                string currentAmountOfEnergyString = Console.ReadLine();
+                // validation for: float
+                //                 in range (between 0 and EnergyCapacity)
+                float currentAmountOfEnergy = float.Parse(currentAmountOfEnergyString);
+                m_Garage.SetCurrentAmountOfEnergy(licensePlate, currentAmountOfEnergy);
                 // wheels state
                 // energy precentage
                 //
-                getSpecificData(licensePlate);
                 
             }
         }
@@ -215,7 +228,8 @@ Please enter the number corresponding to your choice: ");
         {
             List<string> vehicleStatusesList = Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus));
 
-            int userStatusChoice = Utilities.ChooseFromEnumList("status", vehicleStatusesList);
+            Utilities.PrintInputRequest("status");
+            int userStatusChoice = Utilities.ChooseFromEnumList(vehicleStatusesList);
 
             //Console.WriteLine("Filter by vehicles in repair (1), vehicles repaired (2) and vehicles that their repair was paid (3)"); // MAKE DYNAMIC
             //string userChoice = Console.ReadLine();
@@ -238,7 +252,8 @@ Please enter the number corresponding to your choice: ");
 
                 List<string> vehicleStatusesList = Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus));
 
-                int userStatusChoice = Utilities.ChooseFromEnumList("status", vehicleStatusesList);
+                Utilities.PrintInputRequest("status");
+                int userStatusChoice = Utilities.ChooseFromEnumList(vehicleStatusesList);
 
                 //Console.WriteLine("Please choose the desired vehicle status: (1), (2) or (3)"); // MAKE DYNAMIC
                 //PrintList(m_Garage.GetVehicleStatusList());
@@ -302,7 +317,8 @@ Please enter the number corresponding to your choice: ");
         {
             List<string> fuelTypesList = Utilities.GetEnumKeys(typeof(FuelEngine.eFuelType));
 
-            int userFuelTypeChoice = Utilities.ChooseFromEnumList("status", fuelTypesList);
+            Utilities.PrintInputRequest("status");
+            int userFuelTypeChoice = Utilities.ChooseFromEnumList(fuelTypesList);
 
             //Console.WriteLine("Please enter the desired fuel type from the below:");
             //PrintList(FuelEngine.GetFuelTypesList());

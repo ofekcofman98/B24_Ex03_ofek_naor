@@ -24,6 +24,10 @@ namespace Ex03.GarageLogic
             {
                 return m_CurrentAmountOfEnergy;
             }
+            private set
+            {
+                m_CurrentAmountOfEnergy = value;
+            }
         }
         public float EnergyCapacity
         {
@@ -31,6 +35,24 @@ namespace Ex03.GarageLogic
             {
                 return r_EnergyCapacity;
             }
+        }
+
+        public float EnergyPercentage
+        {
+            get
+            {
+                return m_EnergyPercentage;
+            }
+            private set
+            {
+                m_EnergyPercentage = value;
+            }
+        }
+
+        public void SetCurrentAmountAndPercentageOfEnergy(float i_CurrentAmountOfEnergy)
+        {
+            CurrentAmountOfEnergy = i_CurrentAmountOfEnergy;
+            EnergyPercentage = (CurrentAmountOfEnergy / EnergyCapacity) * 100;
         }
         protected void SupplyEnergy(float i_AmountOfEnergyToAdd)
         {
@@ -46,6 +68,8 @@ namespace Ex03.GarageLogic
         }
 
         public abstract void PrintCurrentUnitsOfMeasurement();
+
+        public abstract string GetTypeOfEnergy();
 
 
         private bool CheckEnergySupplyingValidation(float i_NewEnergyAmount)

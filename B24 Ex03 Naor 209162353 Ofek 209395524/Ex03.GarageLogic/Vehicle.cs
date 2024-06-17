@@ -21,11 +21,6 @@ namespace Ex03.GarageLogic
 
         public abstract void SetSpecificData();
 
-
-        //public abstract Dictionary<string, string> SpecificData
-        //{
-        //    get;
-        //}
         public string ModelName
         {
             get

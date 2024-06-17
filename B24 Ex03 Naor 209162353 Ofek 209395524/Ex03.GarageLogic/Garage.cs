@@ -120,6 +120,31 @@ namespace Ex03.GarageLogic
         {
             return m_VehiclesInGarageDict[i_LicensePlateNumber].ToString();
         }
+
+        public string GetTypeOfEnergy(string i_LicensePlateNumber)
+        {
+            return m_VehiclesInGarageDict[i_LicensePlateNumber].Vehicle.Engine.GetTypeOfEnergy();
+        }
+
+        public void SetAirPressureToAllWheels(string i_LicensePlateNumber, float i_AirPressure)
+        {
+            // validation for: float
+            //                 in range (between 0 and MaxAirPressure)
+            List<Wheel> currentVehicleWheelList = m_VehiclesInGarageDict[i_LicensePlateNumber].Vehicle.WheelsList;
+            foreach(Wheel wheel in currentVehicleWheelList)
+            {
+                wheel.CurrentAirPressure = i_AirPressure;
+            }
+        }
+
+
+        public void SetCurrentAmountOfEnergy(string i_LicensePlateNumber, float i_CurrnetAmountOfEnergy)
+        {
+            // validation for: float
+            //                 in range (between 0 and EnergyCapacity)
+            m_VehiclesInGarageDict[i_LicensePlateNumber].Vehicle.Engine.SetCurrentAmountAndPercentageOfEnergy(i_CurrnetAmountOfEnergy);
+        }
+
         public void AddNewVehicleToGarage(string i_LicensePlate, int i_VehicleTypeNumber, string i_OwnerName, string i_OwnerPhone)
         {
             eVehicleType vehicleType = (eVehicleType)i_VehicleTypeNumber;
@@ -135,8 +160,6 @@ namespace Ex03.GarageLogic
                 i_LicensePlateNumber,
                 i_FuelType,
                 i_AmountOfEnergy);
-
-            
         }
     }
 }
