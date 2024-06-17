@@ -5,17 +5,18 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    internal abstract class Vehicle
+    public abstract class Vehicle
     {
         protected string m_ModelName;
         protected string m_LicensePlate;
         protected Engine m_Engine;
-        protected List<Wheel> m_Wheels;
+        protected List<Wheel> m_WheelsList;
 
         protected Vehicle(string i_LicensePlate, Engine i_Engine)
         {
             m_LicensePlate = i_LicensePlate;
             m_Engine = i_Engine;
+            m_WheelsList = new List<Wheel>();
         }
 
         public abstract void SetSpecificData();
@@ -56,17 +57,6 @@ namespace Ex03.GarageLogic
             set
             {
                 m_Engine = value;
-            }
-        }
-        public float EnergyPercentage
-        {
-            get
-            {
-                return m_EnergyPercentage;
-            }
-            set
-            {
-                m_EnergyPercentage = value;
             }
         }
 

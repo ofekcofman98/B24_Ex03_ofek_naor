@@ -116,6 +116,7 @@ Please enter the number corresponding to your choice: ");
                     inflateTiresToMaximum();
                     break;
                 case eMenuOptions.RefuelVehicleTank:
+                    refuelVehicle();
                     break;
                 case eMenuOptions.ChargeVehicleBattery:
                     chargeVehicle();
@@ -140,12 +141,12 @@ Please enter the number corresponding to your choice: ");
             }
             else
             {
-                int vehicleTypeInputNumber = getVehicleTypeNumber();
-
                 Console.WriteLine("Please enter the owner's name:");
                 string ownerName = Console.ReadLine(); // need to check validation (no numbers, no "enter")
                 Console.WriteLine("Please enter the owner's phone number:");
                 string ownerPhoneNumber = Console.ReadLine(); // need to check validation (no letters, no "enter")
+
+                int vehicleTypeInputNumber = getVehicleTypeNumber();
                 m_Garage.AddNewVehicleToGarage(licensePlate, vehicleTypeInputNumber, ownerName, ownerPhoneNumber);
                 Console.WriteLine("Please enter model name");
                 string modelName = Console.ReadLine();
@@ -159,7 +160,7 @@ Please enter the number corresponding to your choice: ");
             }
         }
 
-        public void GetSpecificData(string i_LicensePlate)
+        public void GetSpecificData(string i_LicensePlate) // Change to private
         {
             m_Garage.GetVehicleTypeSpecificData(i_LicensePlate);
         }
@@ -194,23 +195,17 @@ Please enter the number corresponding to your choice: ");
             }
             else
             {
-                Console.WriteLine("Do you want to filter the vehicles by status? (y/n)");
-                string userChoice = Console.ReadLine().ToLower();
+                string question = string.Format("Do you want to filter the vehicles by their status? ");
+                bool isAnswerPositive = Utilities.GetYesOrNoFromUser(question);
 
-                while (userChoice != "y" && userChoice != "n")
+                if(isAnswerPositive)
                 {
-                    Console.WriteLine("Invalid input. Please enter 'y' or 'n'.");
-                    userChoice = Console.ReadLine().ToLower();
-                }
-
-                if(userChoice == "n")
-                {
-                    List<int> licensePlates = m_Garage.GetLicensePlatesList();
-                    PrintList(licensePlates);
+                    displayFilteredLicensePlatesInGarage();
                 }
                 else
                 {
-                    displayFilteredLicensePlatesInGarage();
+                    List<int> licensePlates = m_Garage.GetLicensePlatesList();
+                    Utilities.PrintList(licensePlates);
                 }
             }  
 
@@ -218,16 +213,19 @@ Please enter the number corresponding to your choice: ");
 
         private void displayFilteredLicensePlatesInGarage()
         {
-            Console.WriteLine("Filter by vehicles in repair (1), vehicles repaired (2) and vehicles that their repair was paid (3)"); // MAKE DYNAMIC
-            string userChoice = Console.ReadLine();
+            List<string> vehicleStatusesList = Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus));
 
-            if (!int.TryParse(userChoice, out int userPick))
-            {
-                throw new FormatException(message: "Please enter an integer.");
-            }
+            int userStatusChoice = Utilities.ChooseFromEnumList("status", vehicleStatusesList);
 
-            List<int> licensePlates = m_Garage.GetLicensePlatesListByFilter(userPick);
-            PrintList(licensePlates);
+            //Console.WriteLine("Filter by vehicles in repair (1), vehicles repaired (2) and vehicles that their repair was paid (3)"); // MAKE DYNAMIC
+            //string userChoice = Console.ReadLine();
+            //if (!int.TryParse(userChoice, out int userPick))
+            //{
+            //    throw new FormatException(message: "Please enter an integer.");
+            //}
+
+            List<int> licensePlates = m_Garage.GetLicensePlatesListByFilter(userStatusChoice);
+            Utilities.PrintList(licensePlates);
         }
 
         private void changeVehicleStatus()
@@ -237,17 +235,22 @@ Please enter the number corresponding to your choice: ");
             if (m_Garage.IsVehicleInGarage(licensePlateNumber))
             {
                 Console.WriteLine($"The current status of the car is {m_Garage.GetVehicleStatus(licensePlateNumber)}.");
-                Console.WriteLine("Please choose the desired vehicle status: (1), (2) or (3)"); // MAKE DYNAMIC
-                PrintList(m_Garage.GetVehicleStatusList());
 
-                string userChoice = Console.ReadLine();
+                List<string> vehicleStatusesList = Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus));
 
-                if (!int.TryParse(userChoice, out int userPick))
-                {
-                    throw new FormatException(message: "Please enter an integer.");
-                }
+                int userStatusChoice = Utilities.ChooseFromEnumList("status", vehicleStatusesList);
 
-                m_Garage.ChangeVehicleStatus(licensePlateNumber, userPick);
+                //Console.WriteLine("Please choose the desired vehicle status: (1), (2) or (3)"); // MAKE DYNAMIC
+                //PrintList(m_Garage.GetVehicleStatusList());
+
+                //string userChoice = Console.ReadLine();
+
+                //if (!int.TryParse(userChoice, out int userPick))
+                //{
+                //    throw new FormatException(message: "Please enter an integer.");
+                //}
+
+                m_Garage.ChangeVehicleStatus(licensePlateNumber, userStatusChoice);
 
             }
             else
@@ -297,12 +300,18 @@ Please enter the number corresponding to your choice: ");
 
         private FuelEngine.eFuelType getDesiredTypeOfFuel()
         {
-            Console.WriteLine("Please enter the desired fuel type from the below:");
-            PrintList(FuelEngine.GetFuelTypesList());
+            List<string> fuelTypesList = Utilities.GetEnumKeys(typeof(FuelEngine.eFuelType));
 
-            string userFuelChoice = Console.ReadLine();
-            // parse validation MISSING + range validation MISSING
-            return (FuelEngine.eFuelType)(int.Parse(userFuelChoice));
+            int userFuelTypeChoice = Utilities.ChooseFromEnumList("status", fuelTypesList);
+
+            //Console.WriteLine("Please enter the desired fuel type from the below:");
+            //PrintList(FuelEngine.GetFuelTypesList());
+
+            //string userFuelChoice = Console.ReadLine();
+            //// parse validation MISSING + range validation MISSING
+            ///
+            /// 
+            return (FuelEngine.eFuelType)userFuelTypeChoice;
         }
 
         private float getDesiredAMountOfFuel()
@@ -364,25 +373,6 @@ Please enter the number corresponding to your choice: ");
             }
         }
 
-
-        public static void PrintList<T>(List<T> i_List, bool i_IsListNumbered = false) // Fix names
-        {
-            int i = 1;
-
-            foreach(T item in i_List)
-            {
-                if(i_IsListNumbered)
-                {
-                    Console.WriteLine($"{i}. {item}");
-                    i++;
-                }
-                else
-                {
-                    Console.WriteLine(item);
-                }
-            }
-        }
-
         private void printEmptyGarage()
         {
             Console.WriteLine("No vehicles in the garage.");
@@ -407,7 +397,7 @@ Please enter the number corresponding to your choice: ");
 
         private bool checkInputValidation(string i_LicenseNumberString)
         {
-            bool isValid = i_LicenseNumberString.Length == 8; // could be also 7, or 6 for vintage for ex... 
+            bool isValid = true;/*i_LicenseNumberString.Length == 8; // could be also 7, or 6 for vintage for ex... */
 
             if (isValid)
             {

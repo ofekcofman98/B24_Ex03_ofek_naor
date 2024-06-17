@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    public class GarageVehicleInfo
+    public class VehicleRecordInfo
     {
         private string m_OwnerName;
         private string m_OwnerPhone;
         private Vehicle m_Vehicle;
         private eVehicleStatus m_VehicleStatus;
 
-        internal GarageVehicleInfo(string i_OwnerName, string i_OwnerPhoneNumber)
+        internal VehicleRecordInfo(string i_OwnerName, string i_OwnerPhoneNumber)
         {
             m_OwnerName = i_OwnerName;
             m_OwnerPhone = i_OwnerPhoneNumber;
@@ -28,14 +28,14 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            StringBuilder garageVehicleInfo = new StringBuilder();
-            garageVehicleInfo.AppendLine($"Owner Name: {m_OwnerName}");
-            garageVehicleInfo.AppendLine($"Owner Phone: {m_OwnerPhone}");
-            garageVehicleInfo.AppendLine($"Vehicle Status: {m_VehicleStatus}");
-            garageVehicleInfo.AppendLine("Vehicle Details:");
-            garageVehicleInfo.AppendLine(m_Vehicle.ToString());
+            StringBuilder vehicleRecordInfo = new StringBuilder();
+            vehicleRecordInfo.AppendLine($"Owner Name: {m_OwnerName}");
+            vehicleRecordInfo.AppendLine($"Owner Phone: {m_OwnerPhone}");
+            vehicleRecordInfo.AppendLine($"Vehicle Status: {m_VehicleStatus}");
+            vehicleRecordInfo.AppendLine("Vehicle Details:");
+            vehicleRecordInfo.AppendLine(m_Vehicle.ToString());
 
-            return garageVehicleInfo.ToString();
+            return vehicleRecordInfo.ToString();
         }
 
         public string OwnerName

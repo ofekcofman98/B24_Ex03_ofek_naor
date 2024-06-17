@@ -69,18 +69,6 @@ namespace Ex03.GarageLogic
             return fuelTypesList;
         }
 
-        public void RefuelTank(float i_LitersToAdd, eFuelType i_FuelType) // METHOD NOT NEEDED !!!
-        {
-            if(i_FuelType == this.FuelType)
-            {
-                this.SupplyEnergy(i_LitersToAdd);
-            }
-            else
-            {
-                // exeption of not the same fuel type
-            }
-        }
-
         public override void AddEnergy(string i_LicensePlateNumber, eFuelType? i_FuelType, float i_AmountOfFuel)
         {
             if(i_FuelType == null)

@@ -1,14 +1,3 @@
-C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\bin\Debug\Ex03.ConsoleUI.exe.config
-C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\bin\Debug\Ex03.ConsoleUI.exe
-C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\bin\Debug\Ex03.ConsoleUI.pdb
-C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\bin\Debug\Ex03.GarageLogic.dll
-C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\bin\Debug\Ex03.GarageLogic.pdb
-C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.csproj.AssemblyReference.cache
-C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.csproj.SuggestedBindingRedirects.cache
-C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.csproj.CoreCompileInputs.cache
-C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.csproj.CopyComplete
-C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.exe
-C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.pdb
 C:\Users\Ofek Cofman\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.csproj.AssemblyReference.cache
 C:\Users\Ofek Cofman\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.csproj.SuggestedBindingRedirects.cache
 C:\Users\Ofek Cofman\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.csproj.CoreCompileInputs.cache
@@ -20,3 +9,14 @@ C:\Users\Ofek Cofman\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 
 C:\Users\Ofek Cofman\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.csproj.CopyComplete
 C:\Users\Ofek Cofman\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.exe
 C:\Users\Ofek Cofman\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.pdb
+C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\bin\Debug\Ex03.ConsoleUI.exe
+C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\bin\Debug\Ex03.GarageLogic.dll
+C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\bin\Debug\Ex03.GarageLogic.pdb
+C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.csproj.AssemblyReference.cache
+C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.csproj.SuggestedBindingRedirects.cache
+C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.csproj.CoreCompileInputs.cache
+C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.exe
+C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.pdb
+C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\bin\Debug\Ex03.ConsoleUI.exe.config
+C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\bin\Debug\Ex03.ConsoleUI.pdb
+C:\Users\user\Source\Repos\ofekcofman98\B24_Ex03_ofek_naor\B24 Ex03 Naor 209162353 Ofek 209395524\Ex03.ConsoleUI\obj\Debug\Ex03.ConsoleUI.csproj.CopyComplete
