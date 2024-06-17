@@ -12,23 +12,20 @@ namespace Ex03.GarageLogic
         protected Engine m_Engine;
         protected float m_EnergyPercentage;
         protected List<Wheel> m_WheelsList;
-        protected Dictionary<string, string> m_SpecificData;
 
         protected Vehicle(string i_LicensePlate, Engine i_Engine)
         {
             m_LicensePlate = i_LicensePlate;
             m_Engine = i_Engine;
-            m_SpecificData = new Dictionary<string, string>();
         }
 
-        //public abstract Dictionary<string, string> GetSpecificData();
         public abstract void SetSpecificData();
 
 
-        public abstract Dictionary<string, string> SpecificData
-        {
-            get;
-        }
+        //public abstract Dictionary<string, string> SpecificData
+        //{
+        //    get;
+        //}
         public string ModelName
         {
             get

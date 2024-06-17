@@ -89,7 +89,6 @@ Please enter the number corresponding to your choice: ");
                     inflateTiresToMaximum();
                     break;
                 case eMenuOptions.RefuelVehicleTank:
-                    refuelVehicle();
                     break;
                 case eMenuOptions.ChargeVehicleBattery:
                     //
@@ -123,10 +122,19 @@ Please enter the number corresponding to your choice: ");
                 m_Garage.AddNewVehicleToGarage(licensePlate, vehicleTypeInputNumber, ownerName, ownerPhoneNumber);
                 Console.WriteLine("Please enter model name");
                 string modelName = Console.ReadLine();
-                // add this data
-                Console.WriteLine();
-            }
+                // set !!!
 
+                // wheels state
+                // energy precentage
+                //
+                GetSpecificData(licensePlate);
+                
+            }
+        }
+
+        public void GetSpecificData(string i_LicensePlate)
+        {
+            m_Garage.GetVehicleTypeSpecificData(i_LicensePlate);
         }
 
         private int getVehicleTypeNumber()
@@ -134,7 +142,7 @@ Please enter the number corresponding to your choice: ");
             string vechicleTypeInputString;
             int vechicleTypeInputNumber;
             Console.WriteLine("vehicle types: ");
-            PrintList(m_Garage.GetVehicleTypeList(), i_IsListNumbered: true);
+            Utilities.PrintList(m_Garage.GetVehicleTypeList(), i_IsListNumbered: true);
             Console.WriteLine("PLease enter the vehicle's type: ");
             while (true)
             {
@@ -238,31 +246,6 @@ Please enter the number corresponding to your choice: ");
             else if(m_Garage.IsVehicleInGarage(licensePlateNumber))
             {
                 m_Garage.InflateTiresToMaximum(licensePlateNumber);
-            }
-            else
-            {
-                Console.WriteLine("Vehicle is not in the garage");
-            }
-        }
-
-        private void refuelVehicle()
-        {
-            string licensePlateNumber = getLicensePlateNumber();
-
-            if (m_Garage.IsVehicleInGarage(licensePlateNumber))
-            {
-                if(m_Garage.IsVehicleEngineFuel(licensePlateNumber))
-                {
-                    FuelEngine.eFuelType fuelType = getDesiredTypeOfFuel(licensePlateNumber);
-                    if(m_Garage.IsFuelMatchVehicle(licensePlateNumber, fuelType))
-                    {
-                        float amountOfFuel = getDesired
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Vehicle's engine is electric.");
-                }
             }
             else
             {
