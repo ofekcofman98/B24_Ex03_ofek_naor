@@ -35,9 +35,20 @@ namespace Ex03.GarageLogic
             return isValid;
         }
 
+        public bool IsGarageEmpty()
+        {
+            return m_VehiclesInGarageDict.Count == 0;
+
+        }
         public string GetVehicleStatus(string i_LicensePlateNumber)
         {
             return m_VehiclesInGarageDict[i_LicensePlateNumber].VehicleStatus.ToString();
+        }
+
+        public void GetVehicleTypeSpecificData(string i_LicensePlateNumber)
+        {
+            Vehicle currentVehicle = m_VehiclesInGarageDict[i_LicensePlateNumber].Vehicle;
+            currentVehicle.SetSpecificData();
         }
 
         public List<string> GetVehicleStatusList()

@@ -116,7 +116,6 @@ Please enter the number corresponding to your choice: ");
                     inflateTiresToMaximum();
                     break;
                 case eMenuOptions.RefuelVehicleTank:
-                    refuelVehicle();
                     break;
                 case eMenuOptions.ChargeVehicleBattery:
                     chargeVehicle();
@@ -146,11 +145,23 @@ Please enter the number corresponding to your choice: ");
                 Console.WriteLine("Please enter the owner's name:");
                 string ownerName = Console.ReadLine(); // need to check validation (no numbers, no "enter")
                 Console.WriteLine("Please enter the owner's phone number:");
-                string ownerPhoneNumber = Console.ReadLine();  // need to check validation (no letters, no "enter")
-
+                string ownerPhoneNumber = Console.ReadLine(); // need to check validation (no letters, no "enter")
                 m_Garage.AddNewVehicleToGarage(licensePlate, vehicleTypeInputNumber, ownerName, ownerPhoneNumber);
-            }
+                Console.WriteLine("Please enter model name");
+                string modelName = Console.ReadLine();
+                // set !!!
 
+                // wheels state
+                // energy precentage
+                //
+                GetSpecificData(licensePlate);
+                
+            }
+        }
+
+        public void GetSpecificData(string i_LicensePlate)
+        {
+            m_Garage.GetVehicleTypeSpecificData(i_LicensePlate);
         }
 
         private int getVehicleTypeNumber()
@@ -158,7 +169,7 @@ Please enter the number corresponding to your choice: ");
             string vechicleTypeInputString;
             int vechicleTypeInputNumber;
             Console.WriteLine("vehicle types: ");
-            PrintList(m_Garage.GetVehicleTypeList(), i_IsListNumbered: true);
+            Utilities.PrintList(m_Garage.GetVehicleTypeList(), i_IsListNumbered: true);
             Console.WriteLine("PLease enter the vehicle's type: ");
             while (true)
             {
