@@ -10,31 +10,41 @@ namespace Ex03.GarageLogic
         public const int k_NumberOfWheels = 12;
 
         private bool m_DoesCarryHazardousMaterials;
-        private float m_LagageVolume;
+        private float m_CargoVolume;
 
         private const string k_DoesCarryHazardousMaterials = "does carry hazzardous material";
-        private const string k_LagageVolume = "laggage volume";
+        private const string k_CargoVolume = "cargo volume";
 
         public override string ToString()
         {
             StringBuilder truckInfo = new StringBuilder(base.ToString());
             truckInfo.AppendLine($"Carries Hazardous Materials: {m_DoesCarryHazardousMaterials}");
-            truckInfo.AppendLine($"Luggage Volume: {m_LagageVolume} cubic meters");
+            truckInfo.AppendLine($"Cargo Volume: {m_CargoVolume} cubic meters");
             return truckInfo.ToString();
         }
 
 
         public override void SetSpecificData()
         {
+            inputAndSetDoesCarryHazardousMaterials();
+
+        }
+
+        private void inputAndSetDoesCarryHazardousMaterials()
+        {
             this.DoesCarryHazardousMaterials = Utilities.GetYesOrNoFromUser(k_DoesCarryHazardousMaterials);
-            
-            Utilities.PrintInputRequest(k_LagageVolume);
+            inputAndSetCargoVolume();
+        }
+
+        private void inputAndSetCargoVolume()
+        {
+            Utilities.PrintInputRequest(k_CargoVolume);
             string i_InputString = Console.ReadLine();
             int i_Input;
             int.TryParse(i_InputString, out i_Input);
 
             // validation !!!!
-            this.LagageVolume = i_Input;
+            this.CargoVolume = i_Input;
         }
 
         public bool DoesCarryHazardousMaterials
@@ -49,15 +59,15 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public float LagageVolume
+        public float CargoVolume
         {
             get
             {
-                return m_LagageVolume;
+                return m_CargoVolume;
             }
             set
             {
-                m_LagageVolume = value;
+                m_CargoVolume = value;
             }
         }
 

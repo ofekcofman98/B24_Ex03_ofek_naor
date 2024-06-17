@@ -76,16 +76,26 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override void SetSpecificData()  // duplication ???
+        public override void SetSpecificData()
+        {
+            inputAndSetCarColor();
+            inputAndSetNumOfDoors();
+        }
+
+        private void inputAndSetCarColor()
         {
             Utilities.PrintInputRequest(k_CarColor);
             Utilities.PrintList(GetColorsList(), i_IsListNumbered: true);
             this.CarColor = (eCarColor)Utilities.ChooseFromEnumList(GetColorsList());
+        }
 
+        private void inputAndSetNumOfDoors()
+        {
             Utilities.PrintInputRequest(k_NumberOfDoors);
             Utilities.PrintList(GetDoorsList(), i_IsListNumbered: true);
             this.NumberOfDoors = (eNumberOfDoors)Utilities.ChooseFromEnumList(GetDoorsList());
         }
+
 
         public override string ToString()
         {

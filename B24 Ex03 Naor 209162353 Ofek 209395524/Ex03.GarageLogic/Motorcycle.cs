@@ -62,10 +62,19 @@ namespace Ex03.GarageLogic
 
         public override void SetSpecificData()
         {
+            inputAndSetLicenseKey();
+            inputAndSetEngineVolume();
+        }
+
+        private void inputAndSetLicenseKey()
+        {
             Utilities.PrintInputRequest(k_LicenseType);
             Utilities.PrintList(GetLicenseTypeList(), i_IsListNumbered: true);
             this.LicenseType = (eLicenseType)Utilities.ChooseFromEnumList(GetLicenseTypeList());
+        }
 
+        private void inputAndSetEngineVolume()
+        {
             Utilities.PrintInputRequest(k_EngineVolume);
             string i_EngineVolumeString = Console.ReadLine();
             int i_EngineVolume;
@@ -74,7 +83,7 @@ namespace Ex03.GarageLogic
             // validation !!!!
             this.EngineVolume = i_EngineVolume;
         }
-        
+
         public override string ToString()
         {
             StringBuilder motorcycleInfo = new StringBuilder(base.ToString());
