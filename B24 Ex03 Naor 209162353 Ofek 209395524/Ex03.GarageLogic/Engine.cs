@@ -13,6 +13,7 @@ namespace Ex03.GarageLogic
         protected readonly float r_EnergyCapacity;
 
         protected const float k_MinimumAmountOfEnergy = 0;
+
         protected Engine(float i_EnergyCapacity)
         {
             r_EnergyCapacity = i_EnergyCapacity;
@@ -32,33 +33,12 @@ namespace Ex03.GarageLogic
                 return r_EnergyCapacity;
             }
         }
-        protected void SupplyEnergy(float i_AmountOfEnergyToAdd)
-        {
-            float newEnergyAmount = EnergyCapacity + i_AmountOfEnergyToAdd;
-            if(CheckEnergySupplyingValidation(newEnergyAmount))
-            {
-                m_CurrentAmountOfEnergy = newEnergyAmount;
-            }
-            else
-            {
-                // exception!!!
-            }
-        }
 
-        public abstract void PrintCurrentUnitsOfMeasurement();
+        public abstract void AddEnergy(
+            string i_LicensePlateNumber,
+            FuelEngine.eFuelType? i_FuelType,
+            float i_AmountOfFuel);
 
-
-        private bool CheckEnergySupplyingValidation(float i_NewEnergyAmount)
-        {
-            bool isAmountValid = false;
-            if(i_NewEnergyAmount >= r_EnergyCapacity || i_NewEnergyAmount <= r_EnergyCapacity)
-            {
-                isAmountValid = true;
-            }
-            return isAmountValid;
-        }
-
-        public abstract void AddEnergy(string i_LicensePlateNumber, FuelEngine.eFuelType? i_FuelType, float i_AmountOfFuel);
-
+        public abstract override string ToString();
     }
 }

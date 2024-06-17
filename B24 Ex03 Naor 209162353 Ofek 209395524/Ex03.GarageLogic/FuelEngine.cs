@@ -57,17 +57,6 @@ namespace Ex03.GarageLogic
                 return m_FuelType;
             }
         }
-        public override void PrintCurrentUnitsOfMeasurement()
-        {
-            Console.WriteLine($"{CurrentAmountOfGas} liters of fuel left");
-        }
-
-        public static List<eFuelType> GetFuelTypesList()
-        {
-            List<eFuelType> fuelTypesList = Enum.GetValues(typeof(eFuelType)).Cast<eFuelType>().ToList();
-
-            return fuelTypesList;
-        }
 
         public override void AddEnergy(string i_LicensePlateNumber, eFuelType? i_FuelType, float i_AmountOfFuel)
         {
@@ -90,6 +79,11 @@ namespace Ex03.GarageLogic
             m_CurrentAmountOfEnergy += i_AmountOfFuel;
 
             m_EnergyPercentage = (m_CurrentAmountOfEnergy / r_EnergyCapacity) * 10;
+        }
+
+        public override string ToString()
+        {
+            return string.Format($"Fuel Engine Details:\nCurrent Amount of Gas: {CurrentAmountOfGas} liters, Maximum Gas Capacity: {MaximalAmountOfGas} liters,\n Fuel Type: {m_FuelType}\n Fuel Percentage: {m_EnergyPercentage}%");
         }
     }
 }

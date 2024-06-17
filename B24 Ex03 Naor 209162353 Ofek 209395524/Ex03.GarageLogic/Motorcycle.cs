@@ -106,6 +106,7 @@ namespace Ex03.GarageLogic
             StringBuilder motorcycleInfo = new StringBuilder(base.ToString());
             motorcycleInfo.AppendLine($"Engine Volume: {m_EngineVolume} cc");
             motorcycleInfo.AppendLine($"License Type: {m_LicenseType}");
+
             return motorcycleInfo.ToString();
         }
 

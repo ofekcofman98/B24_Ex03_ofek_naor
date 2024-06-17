@@ -172,6 +172,7 @@ namespace Ex03.GarageLogic
             StringBuilder carInfo = new StringBuilder(base.ToString());
             carInfo.AppendLine($"Car Color: {m_CarColor}");
             carInfo.AppendLine($"Number of Doors: {m_NumOfDoors}");
+
             return carInfo.ToString();
         }
     }

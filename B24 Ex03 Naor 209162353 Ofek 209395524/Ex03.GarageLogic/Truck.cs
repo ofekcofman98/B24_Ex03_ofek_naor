@@ -27,6 +27,7 @@ namespace Ex03.GarageLogic
             StringBuilder truckInfo = new StringBuilder(base.ToString());
             truckInfo.AppendLine($"Carries Hazardous Materials: {m_DoesCarryHazardousMaterials}");
             truckInfo.AppendLine($"Luggage Volume: {m_LagageVolume} cubic meters");
+
             return truckInfo.ToString();
         }
 

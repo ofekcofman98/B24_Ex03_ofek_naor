@@ -96,7 +96,7 @@ namespace Ex03.GarageLogic
             StringBuilder vehicleInfo = new StringBuilder();
             vehicleInfo.AppendLine($"Model Name: {m_ModelName}");
             vehicleInfo.AppendLine($"License Plate: {m_LicensePlate}");
-            vehicleInfo.AppendLine($"Engine Details: {m_Engine}");
+            vehicleInfo.AppendLine($"{m_Engine}");
             vehicleInfo.AppendLine("Tires Details:");
 
             foreach (Wheel wheel in m_WheelsList)
