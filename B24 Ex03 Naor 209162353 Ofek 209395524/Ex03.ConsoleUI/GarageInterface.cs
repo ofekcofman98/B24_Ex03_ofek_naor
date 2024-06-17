@@ -155,12 +155,12 @@ Please enter the number corresponding to your choice: ");
                 // wheels state
                 // energy precentage
                 //
-                GetSpecificData(licensePlate);
+                getSpecificData(licensePlate);
                 
             }
         }
 
-        public void GetSpecificData(string i_LicensePlate) // Change to private
+        private void getSpecificData(string i_LicensePlate) // Change to private
         {
             m_Garage.GetVehicleTypeSpecificData(i_LicensePlate);
         }
