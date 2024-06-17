@@ -12,7 +12,6 @@ namespace Ex03.GarageLogic
         public static void PrintList<T>(List<T> i_List, bool i_IsListNumbered = false) // from InterFace 
         {
             int i = 1;
-
             foreach (T item in i_List)
             {
                 if (i_IsListNumbered)
@@ -39,21 +38,16 @@ namespace Ex03.GarageLogic
             Console.WriteLine($"Please enter {i_String}: ");
         }
 
-        public static int ChooseFromEnumList(/*string i_EnumTitle, */List<string> i_EnumList)
+        public static int ChooseFromEnumList(List<string> i_EnumList)
         {
-            //Console.WriteLine($"Please enter {i_EnumTitle}: ");
-            //PrintList(i_EnumList, i_IsListNumbered: true);
-            int i_Choice;
-
-        //while (true)
-        //{
+            int choice;
             string choiceString = Console.ReadLine();
-            if(!int.TryParse(choiceString, out i_Choice))
+            if(!int.TryParse(choiceString, out choice))
             {
                 throw new FormatException(message: "Invalid input, please enter integer");
             }
 
-            if (!(i_Choice >= 1 && i_Choice <= i_EnumList.Count))
+            if (!(choice >= 1 && choice <= i_EnumList.Count))
             {
                 throw new ArgumentException($"Invalid input. Please input a number between 1 and {i_EnumList.Count}");
             }
@@ -63,7 +57,7 @@ namespace Ex03.GarageLogic
             //}
         //}
 
-            return i_Choice;
+            return choice;
         }
 
         public static bool GetYesOrNoFromUser(string i_Question)
