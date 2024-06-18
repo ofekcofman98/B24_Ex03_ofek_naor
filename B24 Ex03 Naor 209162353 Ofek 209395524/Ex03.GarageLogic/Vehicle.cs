@@ -17,6 +17,8 @@ namespace Ex03.GarageLogic
             {
                 throw new ArgumentException("License plate cannot be null or whitespace.");
             }
+
+            m_LicensePlate = i_LicensePlate;
             m_Engine = i_Engine;
             m_WheelsList = new List<Wheel>();
         }

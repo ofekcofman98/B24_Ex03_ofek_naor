@@ -63,7 +63,7 @@ namespace Ex03.GarageLogic
             return licensePlatesList;
         }
 
-        public List<int> GetLicensePlatesListByFilter(int i_UserChoice)
+        public List<string> GetLicensePlatesListByFilter(int i_UserChoice) 
         {
 
             if (!(i_UserChoice >= (int)VehicleRecordInfo.eVehicleStatus.InRepair && i_UserChoice <= (int)VehicleRecordInfo.eVehicleStatus.Paid))
@@ -71,13 +71,13 @@ namespace Ex03.GarageLogic
                 throw new ValueOutOfRangeException((float)VehicleRecordInfo.eVehicleStatus.InRepair, (float)VehicleRecordInfo.eVehicleStatus.Paid);
             }
 
-            List<int> licensePlatesList = new List<int>(m_VehiclesInGarageDict.Count);
+            List<string> licensePlatesList = new List<string>(m_VehiclesInGarageDict.Count);
 
             foreach (KeyValuePair<string, VehicleRecordInfo> vehicleRecordInfo in m_VehiclesInGarageDict)
             {
                 if((int)vehicleRecordInfo.Value.VehicleStatus == i_UserChoice)
                 {
-                    licensePlatesList.Add(int.Parse(vehicleRecordInfo.Value.Vehicle.LicensePlate));
+                    licensePlatesList.Add((vehicleRecordInfo.Value.Vehicle.LicensePlate));
                 }
             }
 

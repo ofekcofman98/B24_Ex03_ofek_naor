@@ -72,21 +72,21 @@ namespace Ex03.GarageLogic
             return newEngine;
         }
 
-        public static Vehicle CreateVehicleType(string i_LicensePlate, eVehicleType i_VehicleType, Engine engine)
+        public static Vehicle CreateVehicleType(string i_LicensePlate, eVehicleType i_VehicleType, Engine i_Engine)
         {
             Vehicle newVehicle;
             switch (i_VehicleType)
             {
                 case eVehicleType.FueledCar:
                 case eVehicleType.ElectricCar:
-                    newVehicle = new Car(i_LicensePlate, engine);
+                    newVehicle = new Car(i_LicensePlate, i_Engine);
                     break;
                 case eVehicleType.FueledMotorcycle:
                 case eVehicleType.ElectricMotorcycle:
-                    newVehicle = new Motorcycle(i_LicensePlate, engine);
+                    newVehicle = new Motorcycle(i_LicensePlate, i_Engine);
                     break;
                 case eVehicleType.Truck:
-                    newVehicle = new Truck(i_LicensePlate, engine);
+                    newVehicle = new Truck(i_LicensePlate, i_Engine);
                     break;
                 default:
                     throw new ArgumentException("Invalid vehicle type", nameof(i_VehicleType));

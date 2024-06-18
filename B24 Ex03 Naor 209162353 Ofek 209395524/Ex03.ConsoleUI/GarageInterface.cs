@@ -278,7 +278,7 @@ Please enter the number corresponding to your choice: ");
             Utilities.PrintList(Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus)), i_IsListNumbered: true);
             int userStatusChoice = Utilities.ChooseFromEnumList(vehicleStatusesList);
 
-            List<int> licensePlates = m_Garage.GetLicensePlatesListByFilter(userStatusChoice);
+            List<string> licensePlates = m_Garage.GetLicensePlatesListByFilter(userStatusChoice);
             Console.WriteLine("The vehicles: ");
             Utilities.PrintList(licensePlates);
         }
