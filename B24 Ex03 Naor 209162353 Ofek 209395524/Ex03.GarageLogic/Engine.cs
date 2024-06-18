@@ -13,6 +13,7 @@ namespace Ex03.GarageLogic
         protected readonly float r_EnergyCapacity;
 
         protected const float k_MinimumAmountOfEnergy = 0;
+
         protected Engine(float i_EnergyCapacity)
         {
             r_EnergyCapacity = i_EnergyCapacity;
@@ -82,7 +83,11 @@ namespace Ex03.GarageLogic
             return isAmountValid;
         }
 
-        public abstract void AddEnergy(string i_LicensePlateNumber, FuelEngine.eFuelType? i_FuelType, float i_AmountOfFuel);
+        public abstract void AddEnergy(
+            string i_LicensePlateNumber,
+            FuelEngine.eFuelType? i_FuelType,
+            float i_AmountOfFuel);
 
+        public abstract override string ToString();
     }
 }

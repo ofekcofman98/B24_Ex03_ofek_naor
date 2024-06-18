@@ -61,15 +61,9 @@ namespace Ex03.GarageLogic
             m_EnergyPercentage = (m_CurrentAmountOfEnergy / r_EnergyCapacity) * 100;
         }
 
-        //public override void PrintEnergycapacity()
-        //{
-        //    Console.WriteLine($"{MaximalAmountOfBattery} ");
-        //}
-
-        public void ChargeBattery(float i_HoursToCharge) // METHOD NOT NEEDED !!!
+        public override string ToString()
         {
-
+            return string.Format($"Electric Engine Details: \nBattery Time Left: {BatteryTimeLeft} hours, Maximum Battery Capacity: {MaximalAmountOfBattery} hours \n Battery Percentage: {m_EnergyPercentage}%");
         }
-
     }
 }

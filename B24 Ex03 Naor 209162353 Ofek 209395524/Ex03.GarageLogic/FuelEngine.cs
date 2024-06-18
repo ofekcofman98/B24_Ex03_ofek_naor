@@ -95,5 +95,10 @@ namespace Ex03.GarageLogic
 
             m_EnergyPercentage = (m_CurrentAmountOfEnergy / r_EnergyCapacity) * 10;
         }
+
+        public override string ToString()
+        {
+            return string.Format($"Fuel Engine Details:\nCurrent Amount of Gas: {CurrentAmountOfGas} liters, Maximum Gas Capacity: {MaximalAmountOfGas} liters,\n Fuel Type: {m_FuelType}\n Fuel Percentage: {m_EnergyPercentage}%");
+        }
     }
 }
