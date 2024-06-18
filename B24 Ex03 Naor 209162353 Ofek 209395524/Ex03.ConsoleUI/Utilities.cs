@@ -100,9 +100,14 @@ namespace Ex03.GarageLogic
             return result;
         }
 
+        public static string PrintBuffer()
+        {
+            return "-----------------------------------------------------------------------\n";
+        }   
+
         public static int GetValidatedInteger(string i_Prompt, int i_MinValue, int i_MaxValue)
         {
-            Console.WriteLine(i_Prompt);
+            Console.Write(i_Prompt);
             string input = Console.ReadLine();
             if (!int.TryParse(input, out int result))
             {

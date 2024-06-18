@@ -24,14 +24,14 @@ namespace Ex03.GarageLogic
         {
             return new Dictionary<string, Type>
                        {
-                           { "Does Carry Hazardous Materials", typeof(bool) },
+                           { "Does Carry Hazardous Materials (y/n)", typeof(bool) },
                            { "Cargo Volume", typeof(float) }
                        };
         }
 
         public override void SetSpecificData(Dictionary<string, string> i_Data)
         {
-            m_DoesCarryHazardousMaterials = bool.Parse(i_Data["Does Carry Hazardous Materials"]);
+            m_DoesCarryHazardousMaterials = bool.Parse(i_Data["Does Carry Hazardous Materials (y/n)"]);
             m_CargoVolume = float.Parse(i_Data["Cargo Volume"]);
         }
 

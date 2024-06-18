@@ -59,9 +59,9 @@ namespace Ex03.ConsoleUI
 
         private void printGarageMenu() 
         {
-            string garageMenu = string.Format(@"
+            string garageMenu = string.Format($@"
 Garage Menu:
------------------------------------------------------------------------
+{Utilities.PrintBuffer()}
 1. Add a new vehicle.
 2. Display the license plates of all vehicles.
 3. Change a vehicle status.
@@ -70,9 +70,9 @@ Garage Menu:
 6. Recharge vehicle's battery.
 7. Display a vehicle information by a license plate.
 8. Exit garage system.
------------------------------------------------------------------------
+{Utilities.PrintBuffer()}
 Please enter the number corresponding to your choice: ");
-            Console.WriteLine(garageMenu);
+            Console.Write(garageMenu);
 
         }
 
@@ -122,7 +122,7 @@ Please enter the number corresponding to your choice: ");
             try
             {
 
-
+                Console.WriteLine(Utilities.PrintBuffer());
                 string licensePlate = getLicensePlateNumber();
 
                 if(m_Garage.IsVehicleInGarage(licensePlate))
@@ -135,10 +135,11 @@ Please enter the number corresponding to your choice: ");
                     string ownerName = Utilities.GetValidatedString("Please enter the owner's name:");
                     string ownerPhoneNumber =
                         Utilities.GetValidatedPhoneNumber("Please enter the owner's phone number:");
-
+                    Console.WriteLine();
                     int vehicleTypeInputNumber = getVehicleTypeNumber();
                     m_Garage.AddNewVehicleToGarage(licensePlate, vehicleTypeInputNumber, ownerName, ownerPhoneNumber);
 
+                    Console.WriteLine();
                     string modelName = Utilities.GetValidatedString("Please enter the model name:");
                     m_Garage.SetModelName(licensePlate, modelName);
 
@@ -149,20 +150,22 @@ Please enter the number corresponding to your choice: ");
 
                     string wheelsManufacturer =
                         Utilities.GetValidatedString("Please enter name of wheels manufacturer:");
+                    float maxAirPressure = m_Garage.GetMaximumAirPressure(licensePlate);
                     float airPressure = Utilities.GetValidatedFloat(
-                        "Please enter air pressure for the wheels:",
+                        $"Please enter air pressure for the wheels between 0 and {maxAirPressure}:",
                         0,
-                        m_Garage.GetMaximumAirPressure(licensePlate));
+                        maxAirPressure);
                     m_Garage.SetAirPressureToAllWheels(licensePlate, airPressure, wheelsManufacturer);
 
                     // validation for: float
                     //                 in range (between 0 and r_MaximumAirPressure)
                     m_Garage.SetAirPressureToAllWheels(licensePlate, airPressure, wheelsManufacturer);
 
+                    float energyCapacity = m_Garage.GetEnergyCapacity(licensePlate);
                     float currentAmountOfEnergy = Utilities.GetValidatedFloat(
-                        $"Please enter current amount of {m_Garage.GetTypeOfEnergy(licensePlate)}:",
+                        $"Please enter current amount of {m_Garage.GetTypeOfEnergy(licensePlate)} between 0 and {energyCapacity}:",
                         0,
-                        m_Garage.GetEnergyCapacity(licensePlate));
+                        energyCapacity);
                     m_Garage.SetCurrentAmountOfEnergy(licensePlate, currentAmountOfEnergy);
 
                     // validation for: float
