@@ -139,7 +139,7 @@ Please enter the number corresponding to your choice: ");
                     int vehicleTypeInputNumber = getVehicleTypeNumber();
                     m_Garage.AddNewVehicleToGarage(licensePlate, vehicleTypeInputNumber, ownerName, ownerPhoneNumber);
 
-                    string modelName = Utilities.GetValidatedString("Please enter the owner's name:");
+                    string modelName = Utilities.GetValidatedString("Please enter the model name:");
                     m_Garage.SetModelName(licensePlate, modelName);
 
                     Dictionary<string, Type> requiredDataFields = m_Garage.GetVehicleRequiredDataFields(licensePlate);
