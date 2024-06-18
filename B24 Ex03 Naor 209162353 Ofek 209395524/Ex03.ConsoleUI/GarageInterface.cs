@@ -21,11 +21,6 @@ namespace Ex03.ConsoleUI
             ExitSystem = 8
         }
 
-        private static List<string> getMenuOptionsList()
-        {
-            return Utilities.GetEnumKeys(typeof(eMenuOptions));
-        }
-
         public void GarageRun()
         {
             printWelcome();
@@ -86,6 +81,11 @@ Please enter the number corresponding to your choice: ");
             return (eMenuOptions)Utilities.ChooseFromEnumList(getMenuOptionsList());
         }
 
+        private List<string> getMenuOptionsList()
+        {
+            return Utilities.GetEnumKeys(typeof(eMenuOptions));
+        }
+
         private void userMenuChoiceManager(eMenuOptions i_MenuChoice)
         {
             switch (i_MenuChoice)
@@ -119,51 +119,68 @@ Please enter the number corresponding to your choice: ");
 
         private void addNewVehicle()
         {
-            string licensePlate = getLicensePlateNumber();
-
-            if (m_Garage.IsVehicleInGarage(licensePlate))
+            try
             {
-                Console.WriteLine("The vehicle is already in the garage");
-                m_Garage.ChangeVehicleStatusToInRepair(licensePlate);
-            }
-            else
-            {
-                Console.WriteLine("Please enter the owner's name:");
-                string ownerName = Console.ReadLine(); // check no "enter"
 
-                Console.WriteLine("Please enter the owner's phone number:");
-                string ownerPhoneNumber = Console.ReadLine(); // need to check validation (no letters, no "enter")
 
-                int vehicleTypeInputNumber = getVehicleTypeNumber();
-                m_Garage.AddNewVehicleToGarage(licensePlate, vehicleTypeInputNumber, ownerName, ownerPhoneNumber);
+                string licensePlate = getLicensePlateNumber();
 
-                Console.WriteLine("Please enter model name");
-                string modelName = Console.ReadLine();  // check no "enter"
-                m_Garage.SetModelName(licensePlate, modelName);
-
-                Dictionary<string, Type> requiredDataFields = m_Garage.GetVehicleRequiredDataFields(licensePlate);
-                Dictionary<string, string> specificData = collectSpecificData(requiredDataFields);
-
-                m_Garage.SetSpecificData(licensePlate, specificData);
-
-                Console.WriteLine("Please enter name of wheels manufacturer:"); // check no "enter"
-                string wheelsManufacturer = Console.ReadLine();
-                Console.WriteLine("Please enter air pressure for the wheels:");
-                string  airPressureString = Console.ReadLine();
-                if(wheelsManufacturer == "" || !(float.TryParse(airPressureString, out float airPressure)))
+                if(m_Garage.IsVehicleInGarage(licensePlate))
                 {
-                    throw new FormatException("Invalid input");
+                    Console.WriteLine("The vehicle is already in the garage");
+                    m_Garage.ChangeVehicleStatusToInRepair(licensePlate);
                 }
-                // validation for: float
-                //                 in range (between 0 and r_MaximumAirPressure)
-                m_Garage.SetAirPressureToAllWheels(licensePlate, airPressure , wheelsManufacturer);
+                else
+                {
+                    string ownerName = Utilities.GetValidatedString("Please enter the owner's name:");
+                    string ownerPhoneNumber =
+                        Utilities.GetValidatedPhoneNumber("Please enter the owner's phone number:");
 
-                Console.WriteLine($"Please enter current amount of {m_Garage.GetTypeOfEnergy(licensePlate)}");
-                string currentAmountOfEnergyString = Console.ReadLine();
-                // validation for: float
-                //                 in range (between 0 and EnergyCapacity)
-                float currentAmountOfEnergy = float.Parse(currentAmountOfEnergyString);
-                m_Garage.SetCurrentAmountOfEnergy(licensePlate, currentAmountOfEnergy);
+                    int vehicleTypeInputNumber = getVehicleTypeNumber();
+                    m_Garage.AddNewVehicleToGarage(licensePlate, vehicleTypeInputNumber, ownerName, ownerPhoneNumber);
+
+                    string modelName = Utilities.GetValidatedString("Please enter the owner's name:");
+                    m_Garage.SetModelName(licensePlate, modelName);
+
+                    Dictionary<string, Type> requiredDataFields = m_Garage.GetVehicleRequiredDataFields(licensePlate);
+                    Dictionary<string, string> specificData = collectSpecificData(requiredDataFields);
+
+                    m_Garage.SetSpecificData(licensePlate, specificData);
+
+                    string wheelsManufacturer =
+                        Utilities.GetValidatedString("Please enter name of wheels manufacturer:");
+                    float airPressure = Utilities.GetValidatedFloat(
+                        "Please enter air pressure for the wheels:",
+                        0,
+                        m_Garage.GetMaximumAirPressure(licensePlate));
+                    m_Garage.SetAirPressureToAllWheels(licensePlate, airPressure, wheelsManufacturer);
+
+                    // validation for: float
+                    //                 in range (between 0 and r_MaximumAirPressure)
+                    m_Garage.SetAirPressureToAllWheels(licensePlate, airPressure, wheelsManufacturer);
+
+                    float currentAmountOfEnergy = Utilities.GetValidatedFloat(
+                        $"Please enter current amount of {m_Garage.GetTypeOfEnergy(licensePlate)}:",
+                        0,
+                        m_Garage.GetEnergyCapacity(licensePlate));
+                    m_Garage.SetCurrentAmountOfEnergy(licensePlate, currentAmountOfEnergy);
+
+                    // validation for: float
+                    //                 in range (between 0 and EnergyCapacity)
+                    Console.WriteLine("Vehicle added successfully.");
+                }
+            }
+            catch (FormatException ex)
+            {
+                Console.WriteLine($"Format Error: {ex.Message}");
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine($"Argument Error: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected Error: {ex.Message}");
             }
         }
 
@@ -176,19 +193,29 @@ Please enter the number corresponding to your choice: ");
                 string fieldName = field.Key;
                 Type fieldType = field.Value;
 
-                if (fieldType.IsEnum)
+                try
                 {
-                    List<string> enumValues = Utilities.GetEnumKeys(fieldType);
-                    Utilities.PrintInputRequest(fieldName);
-                    Utilities.PrintList(enumValues, true);
-                    int choice = Utilities.ChooseFromEnumList(enumValues);
-                    specificDataDic.Add(fieldName, enumValues[choice - 1]);
+                    if (fieldType.IsEnum)
+                    {
+                        List<string> enumValues = Utilities.GetEnumKeys(fieldType);
+                        Utilities.PrintInputRequest(fieldName);
+                        Utilities.PrintList(enumValues, true);
+                        int choice = Utilities.ChooseFromEnumList(enumValues);
+                        specificDataDic.Add(fieldName, enumValues[choice - 1]);
+                    }
+                    else
+                    {
+                        string input = Utilities.GetValidatedString($"Please enter {fieldName}:");
+                        specificDataDic.Add(fieldName, input);
+                    }
                 }
-                else
+                catch (FormatException ex)
                 {
-                    Console.WriteLine($"Please enter {fieldName}:");
-                    string inputData = Console.ReadLine();
-                    specificDataDic.Add(fieldName, inputData);
+                    throw new FormatException($"Format Error collecting data for {fieldName}: {ex.Message}");
+                }
+                catch (ArgumentException ex)
+                {
+                    throw new ArgumentException($"Argument Error collecting data for {fieldName}: {ex.Message}");
                 }
             }
 
@@ -197,26 +224,26 @@ Please enter the number corresponding to your choice: ");
 
         private int getVehicleTypeNumber()
         {
-            int vehicleTypeInputNumber;
-
             Console.WriteLine("vehicle types: ");
             Utilities.PrintList(m_Garage.GetVehicleTypeList(), i_IsListNumbered: true);
             Console.WriteLine("PLease enter the vehicle's type: ");
 
             while (true)
             {
-                string vehicleTypeInputString = Console.ReadLine();
-                if (!m_Garage.CheckVehicleTypeInputValidation(vehicleTypeInputString, out vehicleTypeInputNumber))
+                try
                 {
-                    Console.WriteLine("invalid input, try again");
+                    int vehicleTypeInputNumber = Utilities.GetValidatedInteger("", 1, m_Garage.GetVehicleTypeList().Count);
+                    return vehicleTypeInputNumber;
                 }
-                else
+                catch (FormatException ex)
                 {
-                    break;
+                    Console.WriteLine($"Format Error: {ex.Message}");
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine($"Argument Error: {ex.Message}");
                 }
             }
-
-            return vehicleTypeInputNumber;
         }
 
         private void displayLicensePlatesInGarage()
@@ -248,6 +275,7 @@ Please enter the number corresponding to your choice: ");
             List<string> vehicleStatusesList = Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus));
 
             Utilities.PrintInputRequest("status");
+            Utilities.PrintList(Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus)), i_IsListNumbered: true);
             int userStatusChoice = Utilities.ChooseFromEnumList(vehicleStatusesList);
 
             List<int> licensePlates = m_Garage.GetLicensePlatesListByFilter(userStatusChoice);
@@ -266,8 +294,8 @@ Please enter the number corresponding to your choice: ");
                 List<string> vehicleStatusesList = Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus));
 
                 Utilities.PrintInputRequest("status");
+                Utilities.PrintList(Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus)), i_IsListNumbered: true);
                 int userStatusChoice = Utilities.ChooseFromEnumList(vehicleStatusesList);
-
                 m_Garage.ChangeVehicleStatus(licensePlateNumber, userStatusChoice);
 
             }
@@ -328,10 +356,7 @@ Please enter the number corresponding to your choice: ");
 
         private float getDesiredAMountOfFuel()
         {
-            Console.WriteLine("Please enter your desired amount of fuel in litres:");
-            string userFuelAmountChoice = Console.ReadLine();
-            // parse validation MISSING
-            return float.Parse(userFuelAmountChoice);
+            return Utilities.GetValidatedFloat("Please enter your desired amount of fuel in litres:", 0, float.MaxValue);
         }
 
         private void chargeVehicle()
@@ -357,14 +382,7 @@ Please enter the number corresponding to your choice: ");
 
         private float getDesiredAmountOfElectricityInMinutes()
         {
-            Console.WriteLine("Please enter your desired amount of electricity in minutes:");
-            string userMinutesAmountChoice = Console.ReadLine();
-            if(!float.TryParse(userMinutesAmountChoice, out float minutesResult))
-            {
-                throw new FormatException(message: "Invalid Input, please enter number of minutes.");
-            }
-
-            return minutesResult;
+            return Utilities.GetValidatedFloat("Please enter your desired amount of electricity in minutes:", 0, float.MaxValue);
         }
 
         private void displayVehicleFullInfo()
@@ -392,38 +410,42 @@ Please enter the number corresponding to your choice: ");
         
         private string getLicensePlateNumber() // NEED TO USE EXCEPTIONS!
         {
-            string licenseNumberString;
-            Console.WriteLine("please enter your license plate number:");
-
             while (true)
             {
-                licenseNumberString = Console.ReadLine();
-                if (checkInputValidation(licenseNumberString))
+                try
                 {
-                    break;
+                    string licenseNumberString = Utilities.GetValidatedString("Please enter your license plate number:");
+                    if (checkInputValidation(licenseNumberString))
+                    {
+                        return licenseNumberString;
+                    }
+                    else
+                    {
+                        throw new ArgumentException("License plate number contains invalid characters.");
+                    }
                 }
-                Console.WriteLine("valid input please");
+                catch (FormatException ex)
+                {
+                    Console.WriteLine($"Format Error: {ex.Message}");
+                }
+                catch (ArgumentException ex)
+                {
+                    Console.WriteLine($"Argument Error: {ex.Message}");
+                }
             }
-            return licenseNumberString;
         }
 
         private bool checkInputValidation(string i_LicenseNumberString)
         {
-            bool isValid = true;/*i_LicenseNumberString.Length == 8; // could be also 7, or 6 for vintage for ex... */
-
-            if (isValid) // check no "enter"
+            foreach (char c in i_LicenseNumberString)
             {
-                foreach (char c in i_LicenseNumberString)
+                if (!char.IsLetterOrDigit(c))
                 {
-                    if (!char.IsLetterOrDigit(c))
-                    {
-                        isValid = false;
-                        break;
-                    }
+                    return false;
                 }
             }
 
-            return isValid;
+            return true;
         }
     }
 }

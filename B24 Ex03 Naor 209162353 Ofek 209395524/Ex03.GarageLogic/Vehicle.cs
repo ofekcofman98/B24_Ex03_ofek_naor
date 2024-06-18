@@ -13,7 +13,10 @@ namespace Ex03.GarageLogic
 
         protected Vehicle(string i_LicensePlate, Engine i_Engine)
         {
-            m_LicensePlate = i_LicensePlate;
+            if (string.IsNullOrWhiteSpace(i_LicensePlate))
+            {
+                throw new ArgumentException("License plate cannot be null or whitespace.");
+            }
             m_Engine = i_Engine;
             m_WheelsList = new List<Wheel>();
         }
@@ -26,6 +29,11 @@ namespace Ex03.GarageLogic
             }
             set
             {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Model name cannot be null or whitespace.");
+                }
+
                 m_ModelName = value;
             }
         }

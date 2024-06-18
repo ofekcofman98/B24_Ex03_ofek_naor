@@ -84,6 +84,7 @@ namespace Ex03.GarageLogic
             return licensePlatesList;
         }
 
+
         public void ChangeVehicleStatus(string i_LicensePlateNumber, int i_UserPick)
         {
             if (!(i_UserPick >= (int)VehicleRecordInfo.eVehicleStatus.InRepair && i_UserPick <= (int)VehicleRecordInfo.eVehicleStatus.Paid))
@@ -159,6 +160,16 @@ namespace Ex03.GarageLogic
         public void SetSpecificData(string i_LicensePlate, Dictionary<string, string> i_SpecificData)
         {
             m_VehiclesInGarageDict[i_LicensePlate].Vehicle.SetSpecificData(i_SpecificData);
+        }
+
+        public float GetMaximumAirPressure(string i_LicensePlate)
+        {
+            return m_VehiclesInGarageDict[i_LicensePlate].Vehicle.WheelsList[0].MaximumAirPressure;
+        }
+
+        public float GetEnergyCapacity(string i_LicensePlate)
+        {
+            return m_VehiclesInGarageDict[i_LicensePlate].Vehicle.Engine.EnergyCapacity;
         }
     }
 }
