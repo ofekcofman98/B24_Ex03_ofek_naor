@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static Ex03.GarageLogic.Car;
 
 namespace Ex03.GarageLogic
 {
@@ -24,6 +25,11 @@ namespace Ex03.GarageLogic
             InRepair = 1,
             Repaired = 2,
             Paid = 3,
+        }
+
+        public static List<string> GetVehicleStatus()
+        {
+            return Utilities.GetEnumKeys(typeof(eVehicleStatus));
         }
 
         public override string ToString()

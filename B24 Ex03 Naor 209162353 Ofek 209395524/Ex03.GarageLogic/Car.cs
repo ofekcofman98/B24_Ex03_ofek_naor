@@ -42,12 +42,12 @@ namespace Ex03.GarageLogic
 
         public static List<string> GetColorsList()
         {
-            return GetEnumKeys(typeof(eCarColor));
+            return Utilities.GetEnumKeys(typeof(eCarColor));
         }
 
         public static List<string> GetDoorsList()
         {
-            return GetEnumKeys(typeof(eNumberOfDoors));
+            return Utilities.GetEnumKeys(typeof(eNumberOfDoors));
         }
 
 

@@ -10,7 +10,7 @@ namespace Ex03.GarageLogic
         private int m_EngineVolume;
         private eLicenseType m_LicenseType;
 
-        private const string k_EngineVolume = "engine eolume";
+        private const string k_EngineVolume = "engine volume";
         private const string k_LicenseType = "license type";
 
         public const int k_NumberOfWheels = 2;

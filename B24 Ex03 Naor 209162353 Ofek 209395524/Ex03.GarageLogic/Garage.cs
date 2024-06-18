@@ -35,6 +35,11 @@ namespace Ex03.GarageLogic
             return isValid;
         }
 
+        public List<string> GetVehicleTypesList()
+        {
+            return VehicleCreator.GetVehiclesTypes();
+        }
+
         public string GetVehicleStatus(string i_LicensePlateNumber)
         {
             return m_VehiclesInGarageDict[i_LicensePlateNumber].VehicleStatus.ToString();
@@ -48,16 +53,8 @@ namespace Ex03.GarageLogic
 
         public List<string> GetVehicleStatusList()
         {
-            List<string> statusList = new List<string>();
-
-            foreach (var status in Enum.GetValues(typeof(VehicleRecordInfo.eVehicleStatus))) // change var
-            {
-                statusList.Add($"{(int)status}. {status}");
-            }
-
-            return statusList;
+            return VehicleRecordInfo.GetVehicleStatus();
         }
-
         public void ChangeVehicleStatusToInRepair(string i_LicensePlate)
         {
             m_VehiclesInGarageDict[i_LicensePlate].ChangeVehicleStatus(VehicleRecordInfo.eVehicleStatus.InRepair);
@@ -137,6 +134,10 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public void SetModelNameToVehicle(string i_LicensePlateNumber, string i_ModelName)
+        {
+            m_VehiclesInGarageDict[i_LicensePlateNumber].Vehicle.ModelName = i_ModelName;
+        }
 
         public void SetCurrentAmountOfEnergy(string i_LicensePlateNumber, float i_CurrnetAmountOfEnergy)
         {
