@@ -26,7 +26,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public static List<string> GetEnumKeys(Type i_EnumType) // from Vehicle
+        public static List<string> GetEnumKeys(Type i_EnumType) 
         {
             string[] keys = Enum.GetNames(i_EnumType);
 
@@ -51,11 +51,6 @@ namespace Ex03.GarageLogic
             {
                 throw new ArgumentException($"Invalid input. Please input a number between 1 and {i_EnumList.Count}");
             }
-            //else
-            //{
-            //    break;
-            //}
-        //}
 
             return choice;
         }

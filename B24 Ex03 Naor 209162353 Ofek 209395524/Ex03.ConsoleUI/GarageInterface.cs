@@ -18,7 +18,7 @@ namespace Ex03.ConsoleUI
         private enum eMenuOptions
         {
             AddNewVehicle = 1,
-            DisplayLicensePlates = 2, // 
+            DisplayLicensePlates = 2, 
             ChangeVehicleStatus = 3,
             InflationToMaximum = 4,
             RefuelVehicleTank = 5,
@@ -63,7 +63,7 @@ namespace Ex03.ConsoleUI
             Console.WriteLine();
         }
 
-        private void printGarageMenu() // make it dynamic
+        private void printGarageMenu() 
         {
             string garageMenu = string.Format(@"
 Garage Menu:
@@ -142,23 +142,31 @@ Please enter the number corresponding to your choice: ");
             else
             {
                 Console.WriteLine("Please enter the owner's name:");
-                string ownerName = Console.ReadLine(); // need to check validation (no numbers, no "enter")
+                string ownerName = Console.ReadLine(); // check no "enter"
+
                 Console.WriteLine("Please enter the owner's phone number:");
                 string ownerPhoneNumber = Console.ReadLine(); // need to check validation (no letters, no "enter")
 
                 int vehicleTypeInputNumber = getVehicleTypeNumber();
                 m_Garage.AddNewVehicleToGarage(licensePlate, vehicleTypeInputNumber, ownerName, ownerPhoneNumber);
+
                 Console.WriteLine("Please enter model name");
-                string modelName = Console.ReadLine();
-                // set !!!
-                getSpecificData(licensePlate);
+                string modelName = Console.ReadLine();  // check no "enter"
+                m_Garage.SetModelName(licensePlate, modelName);
+
+                getSpecificData(licensePlate); // in here
                 
-                Console.WriteLine("Please enter air pressure for the wheels");
+                Console.WriteLine("Please enter name of wheels manufacturer:"); // check no "enter"
+                string wheelsManufacturer = Console.ReadLine();
+                Console.WriteLine("Please enter air pressure for the wheels:");
                 string  airPressureString = Console.ReadLine();
+                if(wheelsManufacturer == "" || !(float.TryParse(airPressureString, out float airPressure)))
+                {
+                    throw new FormatException("Invalid input");
+                }
                 // validation for: float
                 //                 in range (between 0 and EnergyCapacity)
-                float airPressure = float.Parse(airPressureString);
-                m_Garage.SetAirPressureToAllWheels(licensePlate, airPressure);
+                m_Garage.SetAirPressureToAllWheels(licensePlate, airPressure , wheelsManufacturer);
 
                 Console.WriteLine($"Please enter current amount of {m_Garage.GetTypeOfEnergy(licensePlate)}");
                 string currentAmountOfEnergyString = Console.ReadLine();
@@ -166,14 +174,10 @@ Please enter the number corresponding to your choice: ");
                 //                 in range (between 0 and EnergyCapacity)
                 float currentAmountOfEnergy = float.Parse(currentAmountOfEnergyString);
                 m_Garage.SetCurrentAmountOfEnergy(licensePlate, currentAmountOfEnergy);
-                // wheels state
-                // energy precentage
-                //
-                
             }
         }
 
-        private void getSpecificData(string i_LicensePlate) // Change to private
+        private void getSpecificData(string i_LicensePlate) 
         {
             m_Garage.GetVehicleTypeSpecificData(i_LicensePlate);
         }
@@ -415,7 +419,7 @@ Please enter the number corresponding to your choice: ");
         {
             bool isValid = true;/*i_LicenseNumberString.Length == 8; // could be also 7, or 6 for vintage for ex... */
 
-            if (isValid)
+            if (isValid) // check no "enter"
             {
                 foreach (char c in i_LicenseNumberString)
                 {

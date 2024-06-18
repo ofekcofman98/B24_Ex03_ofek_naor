@@ -46,18 +46,6 @@ namespace Ex03.GarageLogic
             currentVehicle.SetSpecificData();
         }
 
-        public List<string> GetVehicleStatusList()
-        {
-            List<string> statusList = new List<string>();
-
-            foreach (var status in Enum.GetValues(typeof(VehicleRecordInfo.eVehicleStatus))) // change var
-            {
-                statusList.Add($"{(int)status}. {status}");
-            }
-
-            return statusList;
-        }
-
         public void ChangeVehicleStatusToInRepair(string i_LicensePlate)
         {
             m_VehiclesInGarageDict[i_LicensePlate].ChangeVehicleStatus(VehicleRecordInfo.eVehicleStatus.InRepair);
@@ -126,7 +114,7 @@ namespace Ex03.GarageLogic
             return m_VehiclesInGarageDict[i_LicensePlateNumber].Vehicle.Engine.GetTypeOfEnergy();
         }
 
-        public void SetAirPressureToAllWheels(string i_LicensePlateNumber, float i_AirPressure)
+        public void SetAirPressureToAllWheels(string i_LicensePlateNumber, float i_AirPressure, string i_WheelsManufacturer)
         {
             // validation for: float
             //                 in range (between 0 and MaxAirPressure)
@@ -134,6 +122,7 @@ namespace Ex03.GarageLogic
             foreach(Wheel wheel in currentVehicleWheelList)
             {
                 wheel.CurrentAirPressure = i_AirPressure;
+                wheel.Manufacturer = i_WheelsManufacturer;
             }
         }
 
@@ -160,6 +149,11 @@ namespace Ex03.GarageLogic
                 i_LicensePlateNumber,
                 i_FuelType,
                 i_AmountOfEnergy);
+        }
+
+        public void SetModelName(string i_LicensePlate, string i_ModelName)
+        {
+            m_VehiclesInGarageDict[i_LicensePlate].Vehicle.ModelName = i_ModelName;
         }
     }
 }
