@@ -21,6 +21,11 @@ namespace Ex03.ConsoleUI
             ExitSystem = 8
         }
 
+        private static List<string> getMenuOptionsList()
+        {
+            return Utilities.GetEnumKeys(typeof(eMenuOptions));
+        }
+
         public void GarageRun()
         {
             printWelcome();
@@ -78,19 +83,7 @@ Please enter the number corresponding to your choice: ");
 
         private eMenuOptions getMenuChoice()
         {
-            string menuChoiceString = Console.ReadLine();
-
-            if(!int.TryParse(menuChoiceString, out int menuChoice))
-            {
-                throw new FormatException($"Invalid input, please enter a number between {(int)eMenuOptions.AddNewVehicle} and {(int)eMenuOptions.ExitSystem}");
-            }
-
-            if (!(menuChoice >= (int)eMenuOptions.AddNewVehicle && menuChoice <= (int)eMenuOptions.ExitSystem)) // change to argument? 
-            {
-                throw new ValueOutOfRangeException((float)eMenuOptions.AddNewVehicle, (float)eMenuOptions.ExitSystem);
-            }
-
-            return (eMenuOptions)menuChoice;
+            return (eMenuOptions)Utilities.ChooseFromEnumList(getMenuOptionsList());
         }
 
         private void userMenuChoiceManager(eMenuOptions i_MenuChoice)
@@ -258,6 +251,7 @@ Please enter the number corresponding to your choice: ");
             int userStatusChoice = Utilities.ChooseFromEnumList(vehicleStatusesList);
 
             List<int> licensePlates = m_Garage.GetLicensePlatesListByFilter(userStatusChoice);
+            Console.WriteLine("The vehicles: ");
             Utilities.PrintList(licensePlates);
         }
 

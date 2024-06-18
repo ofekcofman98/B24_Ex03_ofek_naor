@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="GarageInterface.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
