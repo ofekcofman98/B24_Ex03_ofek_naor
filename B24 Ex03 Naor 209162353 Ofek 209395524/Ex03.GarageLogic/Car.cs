@@ -40,17 +40,6 @@ namespace Ex03.GarageLogic
             Five = 4
         }
 
-        public static List<string> GetColorsList()
-        {
-            return GetEnumKeys(typeof(eCarColor));
-        }
-
-        public static List<string> GetDoorsList()
-        {
-            return GetEnumKeys(typeof(eNumberOfDoors));
-        }
-
-
         public eCarColor CarColor
         {
             get
@@ -76,26 +65,20 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override void SetSpecificData()
+        public override Dictionary<string, Type> GetRequiredDataFields()
         {
-            inputAndSetCarColor();
-            inputAndSetNumOfDoors();
+            return new Dictionary<string, Type>
+                       {
+                           { "Car Color", typeof(eCarColor) },
+                           { "Number of Doors", typeof(eNumberOfDoors) }
+                       };
         }
 
-        private void inputAndSetCarColor()
+        public override void SetSpecificData(Dictionary<string, string> i_Data)
         {
-            Utilities.PrintInputRequest(k_CarColor);
-            Utilities.PrintList(GetColorsList(), i_IsListNumbered: true);
-            this.CarColor = (eCarColor)Utilities.ChooseFromEnumList(GetColorsList());
+            m_CarColor = (eCarColor)Enum.Parse(typeof(eCarColor), i_Data["Car Color"]);
+            m_NumOfDoors = (eNumberOfDoors)Enum.Parse(typeof(eNumberOfDoors), i_Data["Number of Doors"]);
         }
-
-        private void inputAndSetNumOfDoors()
-        {
-            Utilities.PrintInputRequest(k_NumberOfDoors);
-            Utilities.PrintList(GetDoorsList(), i_IsListNumbered: true);
-            this.NumberOfDoors = (eNumberOfDoors)Utilities.ChooseFromEnumList(GetDoorsList());
-        }
-
 
         public override string ToString()
         {

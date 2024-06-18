@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Ex03.GarageLogic
@@ -18,8 +17,6 @@ namespace Ex03.GarageLogic
             m_Engine = i_Engine;
             m_WheelsList = new List<Wheel>();
         }
-
-        public abstract void SetSpecificData();
 
         public string ModelName
         {
@@ -61,10 +58,6 @@ namespace Ex03.GarageLogic
             {
                 return m_WheelsList;
             }
-            //set
-            //{
-            //    m_WheelsList = value;
-            //}
         }
 
 
@@ -76,15 +69,9 @@ namespace Ex03.GarageLogic
             }
         }
 
-        protected static List<string> GetEnumKeys(Type enumType)
-        {
-            string[] keys = Enum.GetNames(enumType);
 
-            return new List<string>(keys);
-        }
-
-
-        //public abstract VehicleTypeSpecificData
+        public abstract Dictionary<string, Type> GetRequiredDataFields();
+        public abstract void SetSpecificData(Dictionary<string, string> i_SpecificVehicleData);
 
         public override string ToString()
         {

@@ -14,7 +14,7 @@ namespace Ex03.GarageLogic
 
         public bool IsGarageEmpty()
         {
-            return m_VehiclesInGarageDict.Count == 0;
+            return m_VehiclesInGarageDict.Count == k_GarageEmpty;
         }
 
         public bool IsVehicleInGarage(string i_LicensePlateNumber)
@@ -25,6 +25,7 @@ namespace Ex03.GarageLogic
         public bool CheckVehicleTypeInputValidation(string i_InputString, out int io_InputNumber)
         {
             bool isValid = false;
+
             if(int.TryParse(i_InputString, out io_InputNumber))
             {
                 if(io_InputNumber >= 1 && io_InputNumber <= VehicleCreator.GetNumOfVehiclesType()) // if number is in the range of static num of type
@@ -38,12 +39,6 @@ namespace Ex03.GarageLogic
         public string GetVehicleStatus(string i_LicensePlateNumber)
         {
             return m_VehiclesInGarageDict[i_LicensePlateNumber].VehicleStatus.ToString();
-        }
-
-        public void GetVehicleTypeSpecificData(string i_LicensePlateNumber)
-        {
-            Vehicle currentVehicle = m_VehiclesInGarageDict[i_LicensePlateNumber].Vehicle;
-            currentVehicle.SetSpecificData();
         }
 
         public void ChangeVehicleStatusToInRepair(string i_LicensePlate)
@@ -154,6 +149,16 @@ namespace Ex03.GarageLogic
         public void SetModelName(string i_LicensePlate, string i_ModelName)
         {
             m_VehiclesInGarageDict[i_LicensePlate].Vehicle.ModelName = i_ModelName;
+        }
+
+        public Dictionary<string, Type> GetVehicleRequiredDataFields(string i_LicensePlateNumber)
+        {
+            return m_VehiclesInGarageDict[i_LicensePlateNumber].Vehicle.GetRequiredDataFields();
+        }
+
+        public void SetSpecificData(string i_LicensePlate, Dictionary<string, string> i_SpecificData)
+        {
+            m_VehiclesInGarageDict[i_LicensePlate].Vehicle.SetSpecificData(i_SpecificData);
         }
     }
 }

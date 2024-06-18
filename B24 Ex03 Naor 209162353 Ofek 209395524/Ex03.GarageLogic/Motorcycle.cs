@@ -10,9 +10,6 @@ namespace Ex03.GarageLogic
         private int m_EngineVolume;
         private eLicenseType m_LicenseType;
 
-        private const string k_EngineVolume = "engine eolume";
-        private const string k_LicenseType = "license type";
-
         public const int k_NumberOfWheels = 2;
 
         public enum eLicenseType
@@ -21,11 +18,6 @@ namespace Ex03.GarageLogic
             AA = 2,
             A1 = 3,
             A = 4,
-        }
-
-        public static List<string> GetLicenseTypeList()
-        {
-            return GetEnumKeys(typeof(eLicenseType));
         }
 
         public Motorcycle(string i_LicensePlate, Engine i_Engine) : base(i_LicensePlate, i_Engine)
@@ -60,28 +52,19 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override void SetSpecificData()
+        public override Dictionary<string, Type> GetRequiredDataFields()
         {
-            inputAndSetLicenseKey();
-            inputAndSetEngineVolume();
+            return new Dictionary<string, Type>
+                       {
+                           { "Engine Volume", typeof(int) },
+                           { "License Type", typeof(eLicenseType) }
+                       };
         }
 
-        private void inputAndSetLicenseKey()
+        public override void SetSpecificData(Dictionary<string, string> i_Data)
         {
-            Utilities.PrintInputRequest(k_LicenseType);
-            Utilities.PrintList(GetLicenseTypeList(), i_IsListNumbered: true);
-            this.LicenseType = (eLicenseType)Utilities.ChooseFromEnumList(GetLicenseTypeList());
-        }
-
-        private void inputAndSetEngineVolume()
-        {
-            Utilities.PrintInputRequest(k_EngineVolume);
-            string i_EngineVolumeString = Console.ReadLine();
-            int i_EngineVolume;
-            int.TryParse(i_EngineVolumeString, out i_EngineVolume);
-
-            // validation !!!!
-            this.EngineVolume = i_EngineVolume;
+            m_EngineVolume = int.Parse(i_Data["Engine Volume"]);
+            m_LicenseType = (eLicenseType)Enum.Parse(typeof(eLicenseType), i_Data["License Type"]);
         }
 
         public override string ToString()

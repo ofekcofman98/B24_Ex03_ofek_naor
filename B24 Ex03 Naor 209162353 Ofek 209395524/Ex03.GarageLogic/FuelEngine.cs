@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
 {
     public class FuelEngine : Engine
     {
-        private readonly eFuelType m_FuelType; // readonly?
+        private readonly eFuelType r_FuelType; 
 
         public const eFuelType k_FuelTypeForMotorcycle = eFuelType.Octan98;
         public const eFuelType k_FuelTypeForCar = eFuelType.Octan95;
@@ -30,7 +30,7 @@ namespace Ex03.GarageLogic
 
         public FuelEngine(float i_MaximalAmountOfGas, eFuelType i_FuelType) : base(i_MaximalAmountOfGas)
         {
-            
+            r_FuelType = i_FuelType;
         }
 
         public float CurrentAmountOfGas
@@ -53,24 +53,13 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_FuelType;
+                return r_FuelType;
             }
-        }
-        public override void PrintCurrentUnitsOfMeasurement()
-        {
-            Console.WriteLine($"{CurrentAmountOfGas} liters of fuel left");
         }
 
         public override string GetTypeOfEnergy()
         {
             return k_FueledEnergy;
-        }
-
-        public static List<eFuelType> GetFuelTypesList()
-        {
-            List<eFuelType> fuelTypesList = Enum.GetValues(typeof(eFuelType)).Cast<eFuelType>().ToList();
-
-            return fuelTypesList;
         }
 
         public override void AddEnergy(string i_LicensePlateNumber, eFuelType? i_FuelType, float i_AmountOfFuel)
@@ -80,9 +69,9 @@ namespace Ex03.GarageLogic
                 throw new ArgumentException(message: "Can't charge a fuel engine vehicle.");
             }
 
-            if (i_FuelType != m_FuelType)
+            if (i_FuelType != r_FuelType)
             {
-                throw new ArgumentException(message: $"Wrong type of fuel. Please refuel with {m_FuelType}.");
+                throw new ArgumentException(message: $"Wrong type of fuel. Please refuel with {r_FuelType}.");
             }
 
             if(i_AmountOfFuel < k_MinimumAmountOfEnergy || m_CurrentAmountOfEnergy + i_AmountOfFuel > r_EnergyCapacity)
@@ -98,7 +87,7 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return string.Format($"Fuel Engine Details:\nCurrent Amount of Gas: {CurrentAmountOfGas} liters, Maximum Gas Capacity: {MaximalAmountOfGas} liters,\n Fuel Type: {m_FuelType}\n Fuel Percentage: {m_EnergyPercentage}%");
+            return string.Format($"Fuel Engine Details:\nCurrent Amount of Gas: {CurrentAmountOfGas} liters, Maximum Gas Capacity: {MaximalAmountOfGas} liters,\n Fuel Type: {r_FuelType}\n Fuel Percentage: {m_EnergyPercentage}%");
         }
     }
 }

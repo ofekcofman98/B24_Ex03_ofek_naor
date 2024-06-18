@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Ex03.GarageLogic
@@ -12,39 +11,28 @@ namespace Ex03.GarageLogic
         private bool m_DoesCarryHazardousMaterials;
         private float m_CargoVolume;
 
-        private const string k_DoesCarryHazardousMaterials = "does carry hazzardous material";
-        private const string k_CargoVolume = "cargo volume";
-
         public override string ToString()
         {
             StringBuilder truckInfo = new StringBuilder(base.ToString());
             truckInfo.AppendLine($"Carries Hazardous Materials: {m_DoesCarryHazardousMaterials}");
             truckInfo.AppendLine($"Cargo Volume: {m_CargoVolume} cubic meters");
+
             return truckInfo.ToString();
         }
 
-
-        public override void SetSpecificData()
+        public override Dictionary<string, Type> GetRequiredDataFields()
         {
-            inputAndSetDoesCarryHazardousMaterials();
-
+            return new Dictionary<string, Type>
+                       {
+                           { "Does Carry Hazardous Materials", typeof(bool) },
+                           { "Cargo Volume", typeof(float) }
+                       };
         }
 
-        private void inputAndSetDoesCarryHazardousMaterials()
+        public override void SetSpecificData(Dictionary<string, string> i_Data)
         {
-            this.DoesCarryHazardousMaterials = Utilities.GetYesOrNoFromUser(k_DoesCarryHazardousMaterials);
-            inputAndSetCargoVolume();
-        }
-
-        private void inputAndSetCargoVolume()
-        {
-            Utilities.PrintInputRequest(k_CargoVolume);
-            string i_InputString = Console.ReadLine();
-            int i_Input;
-            int.TryParse(i_InputString, out i_Input);
-
-            // validation !!!!
-            this.CargoVolume = i_Input;
+            m_DoesCarryHazardousMaterials = bool.Parse(i_Data["Does Carry Hazardous Materials"]);
+            m_CargoVolume = float.Parse(i_Data["Cargo Volume"]);
         }
 
         public bool DoesCarryHazardousMaterials
@@ -77,7 +65,6 @@ namespace Ex03.GarageLogic
             {
                 m_WheelsList.Add(new Wheel(Wheel.k_MaximumAirPressureForTruck));
             }
-
         }
     }
 }

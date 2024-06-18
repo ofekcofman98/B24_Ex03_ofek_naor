@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Globalization;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security;
-using System.Text;
 using Ex03.GarageLogic;
 
 namespace Ex03.ConsoleUI
@@ -154,8 +148,11 @@ Please enter the number corresponding to your choice: ");
                 string modelName = Console.ReadLine();  // check no "enter"
                 m_Garage.SetModelName(licensePlate, modelName);
 
-                getSpecificData(licensePlate); // in here
-                
+                Dictionary<string, Type> requiredDataFields = m_Garage.GetVehicleRequiredDataFields(licensePlate);
+                Dictionary<string, string> specificData = collectSpecificData(requiredDataFields);
+
+                m_Garage.SetSpecificData(licensePlate, specificData);
+
                 Console.WriteLine("Please enter name of wheels manufacturer:"); // check no "enter"
                 string wheelsManufacturer = Console.ReadLine();
                 Console.WriteLine("Please enter air pressure for the wheels:");
@@ -165,7 +162,7 @@ Please enter the number corresponding to your choice: ");
                     throw new FormatException("Invalid input");
                 }
                 // validation for: float
-                //                 in range (between 0 and EnergyCapacity)
+                //                 in range (between 0 and r_MaximumAirPressure)
                 m_Garage.SetAirPressureToAllWheels(licensePlate, airPressure , wheelsManufacturer);
 
                 Console.WriteLine($"Please enter current amount of {m_Garage.GetTypeOfEnergy(licensePlate)}");
@@ -177,22 +174,46 @@ Please enter the number corresponding to your choice: ");
             }
         }
 
-        private void getSpecificData(string i_LicensePlate) 
+        private Dictionary<string, string> collectSpecificData(Dictionary<string, Type> i_RequiredDataFields)
         {
-            m_Garage.GetVehicleTypeSpecificData(i_LicensePlate);
+            Dictionary<string, string> specificDataDic = new Dictionary<string, string>();
+
+            foreach (KeyValuePair<string, Type> field in i_RequiredDataFields)
+            {
+                string fieldName = field.Key;
+                Type fieldType = field.Value;
+
+                if (fieldType.IsEnum)
+                {
+                    List<string> enumValues = Utilities.GetEnumKeys(fieldType);
+                    Utilities.PrintInputRequest(fieldName);
+                    Utilities.PrintList(enumValues, true);
+                    int choice = Utilities.ChooseFromEnumList(enumValues);
+                    specificDataDic.Add(fieldName, enumValues[choice - 1]);
+                }
+                else
+                {
+                    Console.WriteLine($"Please enter {fieldName}:");
+                    string inputData = Console.ReadLine();
+                    specificDataDic.Add(fieldName, inputData);
+                }
+            }
+
+            return specificDataDic;
         }
 
         private int getVehicleTypeNumber()
         {
-            string vechicleTypeInputString;
-            int vechicleTypeInputNumber;
+            int vehicleTypeInputNumber;
+
             Console.WriteLine("vehicle types: ");
             Utilities.PrintList(m_Garage.GetVehicleTypeList(), i_IsListNumbered: true);
             Console.WriteLine("PLease enter the vehicle's type: ");
+
             while (true)
             {
-                vechicleTypeInputString = Console.ReadLine();
-                if (!m_Garage.CheckVehicleTypeInputValidation(vechicleTypeInputString, out vechicleTypeInputNumber))
+                string vehicleTypeInputString = Console.ReadLine();
+                if (!m_Garage.CheckVehicleTypeInputValidation(vehicleTypeInputString, out vehicleTypeInputNumber))
                 {
                     Console.WriteLine("invalid input, try again");
                 }
@@ -201,7 +222,8 @@ Please enter the number corresponding to your choice: ");
                     break;
                 }
             }
-            return vechicleTypeInputNumber;
+
+            return vehicleTypeInputNumber;
         }
 
         private void displayLicensePlatesInGarage()
@@ -235,13 +257,6 @@ Please enter the number corresponding to your choice: ");
             Utilities.PrintInputRequest("status");
             int userStatusChoice = Utilities.ChooseFromEnumList(vehicleStatusesList);
 
-            //Console.WriteLine("Filter by vehicles in repair (1), vehicles repaired (2) and vehicles that their repair was paid (3)"); // MAKE DYNAMIC
-            //string userChoice = Console.ReadLine();
-            //if (!int.TryParse(userChoice, out int userPick))
-            //{
-            //    throw new FormatException(message: "Please enter an integer.");
-            //}
-
             List<int> licensePlates = m_Garage.GetLicensePlatesListByFilter(userStatusChoice);
             Utilities.PrintList(licensePlates);
         }
@@ -258,16 +273,6 @@ Please enter the number corresponding to your choice: ");
 
                 Utilities.PrintInputRequest("status");
                 int userStatusChoice = Utilities.ChooseFromEnumList(vehicleStatusesList);
-
-                //Console.WriteLine("Please choose the desired vehicle status: (1), (2) or (3)"); // MAKE DYNAMIC
-                //PrintList(m_Garage.GetVehicleStatusList());
-
-                //string userChoice = Console.ReadLine();
-
-                //if (!int.TryParse(userChoice, out int userPick))
-                //{
-                //    throw new FormatException(message: "Please enter an integer.");
-                //}
 
                 m_Garage.ChangeVehicleStatus(licensePlateNumber, userStatusChoice);
 
@@ -324,13 +329,6 @@ Please enter the number corresponding to your choice: ");
             Utilities.PrintInputRequest("status");
             int userFuelTypeChoice = Utilities.ChooseFromEnumList(fuelTypesList);
 
-            //Console.WriteLine("Please enter the desired fuel type from the below:");
-            //PrintList(FuelEngine.GetFuelTypesList());
-
-            //string userFuelChoice = Console.ReadLine();
-            //// parse validation MISSING + range validation MISSING
-            ///
-            /// 
             return (FuelEngine.eFuelType)userFuelTypeChoice;
         }
 

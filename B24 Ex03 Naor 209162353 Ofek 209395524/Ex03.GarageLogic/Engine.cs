@@ -55,33 +55,9 @@ namespace Ex03.GarageLogic
             CurrentAmountOfEnergy = i_CurrentAmountOfEnergy;
             EnergyPercentage = (CurrentAmountOfEnergy / EnergyCapacity) * 100;
         }
-        protected void SupplyEnergy(float i_AmountOfEnergyToAdd)
-        {
-            float newEnergyAmount = EnergyCapacity + i_AmountOfEnergyToAdd;
-            if(CheckEnergySupplyingValidation(newEnergyAmount))
-            {
-                m_CurrentAmountOfEnergy = newEnergyAmount;
-            }
-            else
-            {
-                // exception!!!
-            }
-        }
-
-        public abstract void PrintCurrentUnitsOfMeasurement();
 
         public abstract string GetTypeOfEnergy();
 
-
-        private bool CheckEnergySupplyingValidation(float i_NewEnergyAmount)
-        {
-            bool isAmountValid = false;
-            if(i_NewEnergyAmount >= r_EnergyCapacity || i_NewEnergyAmount <= r_EnergyCapacity)
-            {
-                isAmountValid = true;
-            }
-            return isAmountValid;
-        }
 
         public abstract void AddEnergy(
             string i_LicensePlateNumber,

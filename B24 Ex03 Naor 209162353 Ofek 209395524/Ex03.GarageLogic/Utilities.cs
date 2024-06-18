@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Ex03.GarageLogic.Car;
+
 
 namespace Ex03.GarageLogic
 {
     public static class Utilities
     {
-        public static void PrintList<T>(List<T> i_List, bool i_IsListNumbered = false) // from InterFace 
+        public static void PrintList<T>(List<T> i_List, bool i_IsListNumbered = false)  
         {
             int i = 1;
             foreach (T item in i_List)
@@ -40,9 +37,8 @@ namespace Ex03.GarageLogic
 
         public static int ChooseFromEnumList(List<string> i_EnumList)
         {
-            int choice;
             string choiceString = Console.ReadLine();
-            if(!int.TryParse(choiceString, out choice))
+            if(!int.TryParse(choiceString, out int choice))
             {
                 throw new FormatException(message: "Invalid input, please enter integer");
             }
