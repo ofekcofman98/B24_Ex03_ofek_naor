@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
+
 using System.Text;
 
 namespace Ex03.GarageLogic
@@ -10,9 +9,6 @@ namespace Ex03.GarageLogic
     {
         private eCarColor m_CarColor;
         private eNumberOfDoors m_NumOfDoors;
-
-        private const string k_CarColor = "car color";
-        private const string k_NumberOfDoors = "number of doors";
 
         public const int k_NumberOfWheels = 5;
 
@@ -38,31 +34,6 @@ namespace Ex03.GarageLogic
             Three = 2,
             Four = 3,
             Five = 4
-        }
-
-        public eCarColor CarColor
-        {
-            get
-            {
-                return m_CarColor;
-            }
-
-            set
-            {
-                m_CarColor = value;
-            }
-        }
-        public eNumberOfDoors NumberOfDoors
-        {
-            get
-            {
-                return m_NumOfDoors;
-            }
-
-            set
-            {
-                m_NumOfDoors = value;
-            }
         }
 
         public override Dictionary<string, Type> GetRequiredDataFields()

@@ -31,32 +31,18 @@ namespace Ex03.GarageLogic
 
         public override void SetSpecificData(Dictionary<string, string> i_Data)
         {
-            m_DoesCarryHazardousMaterials = bool.Parse(i_Data["Does Carry Hazardous Materials (y/n)"]);
-            m_CargoVolume = float.Parse(i_Data["Cargo Volume"]);
-        }
+            if (i_Data["Does Carry Hazardous Materials (y/n)"] != "y" && i_Data["Does Carry Hazardous Materials (y/n)"] != "n")
+            {
+                throw new FormatException("Invalid input. Please enter 'y' or 'n'.");
+            }
 
-        public bool DoesCarryHazardousMaterials
-        {
-            get
+            if(!float.TryParse(i_Data["Cargo Volume"], out float cargoVolume))
             {
-                return m_DoesCarryHazardousMaterials;
+                throw new FormatException("Invalid input, please enter a number");
             }
-            set
-            {
-                m_DoesCarryHazardousMaterials = value;
-            }
-        }
 
-        public float CargoVolume
-        {
-            get
-            {
-                return m_CargoVolume;
-            }
-            set
-            {
-                m_CargoVolume = value;
-            }
+            m_DoesCarryHazardousMaterials = i_Data["Does Carry Hazardous Materials (y/n)"] == "y";
+            m_CargoVolume = cargoVolume;
         }
 
         public Truck(string i_LicensePlate, Engine i_Engine) : base(i_LicensePlate, i_Engine)

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
 
 namespace Ex03.GarageLogic
 {
@@ -49,14 +45,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public eFuelType FuelType
-        {
-            get
-            {
-                return r_FuelType;
-            }
-        }
-
         public override string GetTypeOfEnergy()
         {
             return k_FueledEnergy;
@@ -81,8 +69,7 @@ namespace Ex03.GarageLogic
             }
 
             m_CurrentAmountOfEnergy += i_AmountOfFuel;
-
-            m_EnergyPercentage = (m_CurrentAmountOfEnergy / r_EnergyCapacity) * 10;
+            m_EnergyPercentage = (m_CurrentAmountOfEnergy / r_EnergyCapacity) * 100;
         }
 
         public override string ToString()

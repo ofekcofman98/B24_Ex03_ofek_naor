@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using static Ex03.GarageLogic.VehicleCreator;
 
 namespace Ex03.GarageLogic
@@ -12,14 +10,6 @@ namespace Ex03.GarageLogic
 
         Dictionary<string, VehicleRecordInfo> m_VehiclesInGarageDict = new Dictionary<string, VehicleRecordInfo>();
 
-        public VehicleRecordInfo VehicleRecordInfo
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
         public bool IsGarageEmpty()
         {
             return m_VehiclesInGarageDict.Count == k_GarageEmpty;
@@ -28,20 +18,6 @@ namespace Ex03.GarageLogic
         public bool IsVehicleInGarage(string i_LicensePlateNumber)
         {
             return m_VehiclesInGarageDict.ContainsKey(i_LicensePlateNumber);
-        }
-
-        public bool CheckVehicleTypeInputValidation(string i_InputString, out int io_InputNumber)
-        {
-            bool isValid = false;
-
-            if(int.TryParse(i_InputString, out io_InputNumber))
-            {
-                if(io_InputNumber >= 1 && io_InputNumber <= VehicleCreator.GetNumOfVehiclesType()) // if number is in the range of static num of type
-                {
-                    isValid = true;
-                }
-            }
-            return isValid;
         }
 
         public string GetVehicleStatus(string i_LicensePlateNumber)
@@ -73,12 +49,6 @@ namespace Ex03.GarageLogic
 
         public List<string> GetLicensePlatesListByFilter(int i_UserChoice) 
         {
-
-            if (!(i_UserChoice >= (int)VehicleRecordInfo.eVehicleStatus.InRepair && i_UserChoice <= (int)VehicleRecordInfo.eVehicleStatus.Paid))
-            {// argument?
-                throw new ValueOutOfRangeException((float)VehicleRecordInfo.eVehicleStatus.InRepair, (float)VehicleRecordInfo.eVehicleStatus.Paid);
-            }
-
             List<string> licensePlatesList = new List<string>(m_VehiclesInGarageDict.Count);
 
             foreach (KeyValuePair<string, VehicleRecordInfo> vehicleRecordInfo in m_VehiclesInGarageDict)
@@ -92,14 +62,8 @@ namespace Ex03.GarageLogic
             return licensePlatesList;
         }
 
-
         public void ChangeVehicleStatus(string i_LicensePlateNumber, int i_UserPick)
         {
-            if (!(i_UserPick >= (int)VehicleRecordInfo.eVehicleStatus.InRepair && i_UserPick <= (int)VehicleRecordInfo.eVehicleStatus.Paid))
-            {// argument?
-                throw new ValueOutOfRangeException((float)VehicleRecordInfo.eVehicleStatus.InRepair, (float)VehicleRecordInfo.eVehicleStatus.Paid);
-            }
-
             m_VehiclesInGarageDict[i_LicensePlateNumber].VehicleStatus = (VehicleRecordInfo.eVehicleStatus)i_UserPick;
         }
 
@@ -120,11 +84,15 @@ namespace Ex03.GarageLogic
 
         public void SetAirPressureToAllWheels(string i_LicensePlateNumber, float i_AirPressure, string i_WheelsManufacturer)
         {
-            // validation for: float
-            //                 in range (between 0 and MaxAirPressure)
             List<Wheel> currentVehicleWheelList = m_VehiclesInGarageDict[i_LicensePlateNumber].Vehicle.WheelsList;
+
             foreach(Wheel wheel in currentVehicleWheelList)
             {
+                if (!(i_AirPressure >= 0 && i_AirPressure <= wheel.MaximumAirPressure))
+                {
+                    throw new ValueOutOfRangeException(0, wheel.MaximumAirPressure);
+                }
+
                 wheel.CurrentAirPressure = i_AirPressure;
                 wheel.Manufacturer = i_WheelsManufacturer;
             }
@@ -133,8 +101,6 @@ namespace Ex03.GarageLogic
 
         public void SetCurrentAmountOfEnergy(string i_LicensePlateNumber, float i_CurrnetAmountOfEnergy)
         {
-            // validation for: float
-            //                 in range (between 0 and EnergyCapacity)
             m_VehiclesInGarageDict[i_LicensePlateNumber].Vehicle.Engine.SetCurrentAmountAndPercentageOfEnergy(i_CurrnetAmountOfEnergy);
         }
 

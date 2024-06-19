@@ -70,22 +70,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public Engine Engine1
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        public Wheel Wheel
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
         public void InflateTiresToMax()
         {
             foreach(Wheel wheel in m_WheelsList)
@@ -93,7 +77,6 @@ namespace Ex03.GarageLogic
                 wheel.InflateToMax();
             }
         }
-
 
         public abstract Dictionary<string, Type> GetRequiredDataFields();
         public abstract void SetSpecificData(Dictionary<string, string> i_SpecificVehicleData);

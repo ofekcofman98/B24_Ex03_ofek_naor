@@ -9,6 +9,8 @@ namespace Ex03.ConsoleUI
         private Garage m_Garage = new Garage();
         private bool m_IsSystemQuit;
 
+        private const bool k_PrintListNumbered = true;
+
         private enum eMenuOptions
         {
             AddNewVehicle = 1,
@@ -73,7 +75,6 @@ Garage Menu:
 {Utilities.PrintBuffer()}
 Please enter the number corresponding to your choice: ");
             Console.Write(garageMenu);
-
         }
 
         private eMenuOptions getMenuChoice()
@@ -119,134 +120,124 @@ Please enter the number corresponding to your choice: ");
 
         private void addNewVehicle()
         {
-            try
+            Console.WriteLine(Utilities.PrintBuffer());
+            string licensePlate = getLicensePlateNumber();
+
+            if(m_Garage.IsVehicleInGarage(licensePlate))
             {
+                Console.WriteLine("The vehicle is already in the garage");
+                m_Garage.ChangeVehicleStatusToInRepair(licensePlate);
+                setVehicleTiresAndEnergy(licensePlate);
+                Console.WriteLine("Information added successfully");
+            }
+            else
+            {
+                string ownerName = Utilities.GetValidatedString("Please enter the owner's name:");
+                string ownerPhoneNumber =
+                    Utilities.GetValidatedPhoneNumber("Please enter the owner's phone number:");
+                Console.WriteLine();
+                int vehicleTypeInputNumber = getVehicleTypeNumber();
+                m_Garage.AddNewVehicleToGarage(licensePlate, vehicleTypeInputNumber, ownerName, ownerPhoneNumber);
 
-                Console.WriteLine(Utilities.PrintBuffer());
-                string licensePlate = getLicensePlateNumber();
-
-                if(m_Garage.IsVehicleInGarage(licensePlate))
+                while (true)
                 {
-                    Console.WriteLine("The vehicle is already in the garage");
-                    m_Garage.ChangeVehicleStatusToInRepair(licensePlate);
-                }
-                else
-                {
-                    string ownerName = Utilities.GetValidatedString("Please enter the owner's name:");
-                    string ownerPhoneNumber =
-                        Utilities.GetValidatedPhoneNumber("Please enter the owner's phone number:");
-                    Console.WriteLine();
-                    int vehicleTypeInputNumber = getVehicleTypeNumber();
-                    m_Garage.AddNewVehicleToGarage(licensePlate, vehicleTypeInputNumber, ownerName, ownerPhoneNumber);
+                    try
+                    {
+                        Console.WriteLine();
+                        string modelName = Utilities.GetValidatedString("Please enter the model name:");
+                        m_Garage.SetModelName(licensePlate, modelName);
 
-                    Console.WriteLine();
-                    string modelName = Utilities.GetValidatedString("Please enter the model name:");
-                    m_Garage.SetModelName(licensePlate, modelName);
+                        Dictionary<string, Type> requiredDataFields = m_Garage.GetVehicleRequiredDataFields(licensePlate);
+                        Dictionary<string, string> specificData = collectSpecificData(requiredDataFields);
 
-                    Dictionary<string, Type> requiredDataFields = m_Garage.GetVehicleRequiredDataFields(licensePlate);
-                    Dictionary<string, string> specificData = collectSpecificData(requiredDataFields);
+                        m_Garage.SetSpecificData(licensePlate, specificData);
 
-                    m_Garage.SetSpecificData(licensePlate, specificData);
+                        setVehicleTiresAndEnergy(licensePlate);
 
-                    string wheelsManufacturer =
-                        Utilities.GetValidatedString("Please enter name of wheels manufacturer:");
-                    float maxAirPressure = m_Garage.GetMaximumAirPressure(licensePlate);
-                    float airPressure = Utilities.GetValidatedFloat(
-                        $"Please enter air pressure for the wheels between 0 and {maxAirPressure}:",
-                        0,
-                        maxAirPressure);
-                    m_Garage.SetAirPressureToAllWheels(licensePlate, airPressure, wheelsManufacturer);
-
-                    // validation for: float
-                    //                 in range (between 0 and r_MaximumAirPressure)
-                    m_Garage.SetAirPressureToAllWheels(licensePlate, airPressure, wheelsManufacturer);
-
-                    float energyCapacity = m_Garage.GetEnergyCapacity(licensePlate);
-                    float currentAmountOfEnergy = Utilities.GetValidatedFloat(
-                        $"Please enter current amount of {m_Garage.GetTypeOfEnergy(licensePlate)} between 0 and {energyCapacity}:",
-                        0,
-                        energyCapacity);
-                    m_Garage.SetCurrentAmountOfEnergy(licensePlate, currentAmountOfEnergy);
-
-                    // validation for: float
-                    //                 in range (between 0 and EnergyCapacity)
-                    Console.WriteLine("Vehicle added successfully.");
+                        Console.WriteLine("Vehicle added successfully.");
+                        
+                        break;
+                    }
+                    catch (FormatException ex)
+                    {
+                        Console.WriteLine($"Format Error: {ex.Message}");
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        Console.WriteLine($"Argument Error: {ex.Message}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"{ex.Message}");
+                    }
                 }
             }
-            catch (FormatException ex)
-            {
-                Console.WriteLine($"Format Error: {ex.Message}");
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine($"Argument Error: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Unexpected Error: {ex.Message}");
-            }
+        }
+
+        private void setVehicleTiresAndEnergy(string i_LicensePlate)
+        {
+            string wheelsManufacturer =
+                Utilities.GetValidatedString("Please enter name of wheels manufacturer:");
+            float maxAirPressure = m_Garage.GetMaximumAirPressure(i_LicensePlate);
+            float airPressure = Utilities.GetValidatedFloat(
+                $"Please enter air pressure for the wheels between 0 and {maxAirPressure}:");
+            m_Garage.SetAirPressureToAllWheels(i_LicensePlate, airPressure, wheelsManufacturer);
+
+            float energyCapacity = m_Garage.GetEnergyCapacity(i_LicensePlate);
+            float currentAmountOfEnergy = Utilities.GetValidatedFloat(
+                $"Please enter current amount of {m_Garage.GetTypeOfEnergy(i_LicensePlate)} between 0 and {energyCapacity}:");
+            m_Garage.SetCurrentAmountOfEnergy(i_LicensePlate, currentAmountOfEnergy);
         }
 
         private Dictionary<string, string> collectSpecificData(Dictionary<string, Type> i_RequiredDataFields)
         {
             Dictionary<string, string> specificDataDic = new Dictionary<string, string>();
 
-            foreach (KeyValuePair<string, Type> field in i_RequiredDataFields)
+            while(true)
             {
-                string fieldName = field.Key;
-                Type fieldType = field.Value;
+                foreach(KeyValuePair<string, Type> field in i_RequiredDataFields)
+                {
+                    string fieldName = field.Key;
+                    Type fieldType = field.Value;
 
-                try
-                {
-                    if (fieldType.IsEnum)
+                    try
                     {
-                        List<string> enumValues = Utilities.GetEnumKeys(fieldType);
-                        Utilities.PrintInputRequest(fieldName);
-                        Utilities.PrintList(enumValues, true);
-                        int choice = Utilities.ChooseFromEnumList(enumValues);
-                        specificDataDic.Add(fieldName, enumValues[choice - 1]);
+                        if(fieldType.IsEnum)
+                        {
+                            List<string> enumValues = Utilities.GetEnumKeys(fieldType);
+                            Utilities.PrintInputRequest(fieldName);
+                            Utilities.PrintList(enumValues, k_PrintListNumbered);
+                            int choice = Utilities.ChooseFromEnumList(enumValues);
+                            specificDataDic.Add(fieldName, enumValues[choice - 1]);
+                        }
+                        else
+                        {
+                            string input = Utilities.GetValidatedString($"Please enter {fieldName}:");
+                            specificDataDic.Add(fieldName, input);
+                        }
                     }
-                    else
+                    catch(FormatException ex)
                     {
-                        string input = Utilities.GetValidatedString($"Please enter {fieldName}:");
-                        specificDataDic.Add(fieldName, input);
+                        throw new FormatException($"Format Error collecting data for {fieldName}: {ex.Message}");
+                    }
+                    catch(ArgumentException ex)
+                    {
+                        throw new ArgumentException($"Argument Error collecting data for {fieldName}: {ex.Message}");
                     }
                 }
-                catch (FormatException ex)
-                {
-                    throw new FormatException($"Format Error collecting data for {fieldName}: {ex.Message}");
-                }
-                catch (ArgumentException ex)
-                {
-                    throw new ArgumentException($"Argument Error collecting data for {fieldName}: {ex.Message}");
-                }
+
+                return specificDataDic;
             }
-
-            return specificDataDic;
         }
 
         private int getVehicleTypeNumber()
         {
             Console.WriteLine("vehicle types: ");
-            Utilities.PrintList(m_Garage.GetVehicleTypeList(), i_IsListNumbered: true);
+            Utilities.PrintList(m_Garage.GetVehicleTypeList(), k_PrintListNumbered);
             Console.WriteLine("PLease enter the vehicle's type: ");
+            int vehicleTypeInputNumber = Utilities.GetValidatedInteger("");
 
-            while (true)
-            {
-                try
-                {
-                    int vehicleTypeInputNumber = Utilities.GetValidatedInteger("", 1, m_Garage.GetVehicleTypeList().Count);
-                    return vehicleTypeInputNumber;
-                }
-                catch (FormatException ex)
-                {
-                    Console.WriteLine($"Format Error: {ex.Message}");
-                }
-                catch (ArgumentException ex)
-                {
-                    Console.WriteLine($"Argument Error: {ex.Message}");
-                }
-            }
+            return vehicleTypeInputNumber;
         }
 
         private void displayLicensePlatesInGarage()
@@ -267,6 +258,7 @@ Please enter the number corresponding to your choice: ");
                 else
                 {
                     List<int> licensePlates = m_Garage.GetLicensePlatesList();
+                    Console.WriteLine("License Plates: ");
                     Utilities.PrintList(licensePlates);
                 }
             }  
@@ -278,12 +270,20 @@ Please enter the number corresponding to your choice: ");
             List<string> vehicleStatusesList = Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus));
 
             Utilities.PrintInputRequest("status");
-            Utilities.PrintList(Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus)), i_IsListNumbered: true);
+            Utilities.PrintList(Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus)), k_PrintListNumbered);
             int userStatusChoice = Utilities.ChooseFromEnumList(vehicleStatusesList);
 
             List<string> licensePlates = m_Garage.GetLicensePlatesListByFilter(userStatusChoice);
-            Console.WriteLine("The vehicles: ");
-            Utilities.PrintList(licensePlates);
+
+            if(licensePlates.Count == 0)
+            {
+                Console.WriteLine("No vehicles in the garage in that status.");
+            }
+            else
+            {
+                Console.WriteLine("License Plates: ");
+                Utilities.PrintList(licensePlates);
+            }
         }
 
         private void changeVehicleStatus()
@@ -297,10 +297,11 @@ Please enter the number corresponding to your choice: ");
                 List<string> vehicleStatusesList = Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus));
 
                 Utilities.PrintInputRequest("status");
-                Utilities.PrintList(Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus)), i_IsListNumbered: true);
+                Utilities.PrintList(Utilities.GetEnumKeys(typeof(VehicleRecordInfo.eVehicleStatus)), k_PrintListNumbered);
                 int userStatusChoice = Utilities.ChooseFromEnumList(vehicleStatusesList);
                 m_Garage.ChangeVehicleStatus(licensePlateNumber, userStatusChoice);
 
+                Console.WriteLine("Status was changed.");
             }
             else
             {
@@ -319,6 +320,7 @@ Please enter the number corresponding to your choice: ");
             else if (m_Garage.IsVehicleInGarage(licensePlateNumber))
             {
                 m_Garage.InflateTiresToMaximum(licensePlateNumber);
+                Console.WriteLine("Tires are now full.");
             }
             else
             {
@@ -340,6 +342,8 @@ Please enter the number corresponding to your choice: ");
                 float amountOfFuel = getDesiredAMountOfFuel();
 
                 m_Garage.AddEnergy(licensePlateNumber, fuelType, amountOfFuel);
+
+                Console.WriteLine($"{amountOfFuel} litres  of {fuelType} were added to the vehicle");
             }
             else
             {
@@ -350,8 +354,8 @@ Please enter the number corresponding to your choice: ");
         private FuelEngine.eFuelType getDesiredTypeOfFuel()
         {
             List<string> fuelTypesList = Utilities.GetEnumKeys(typeof(FuelEngine.eFuelType));
-
-            Utilities.PrintInputRequest("status");
+            Utilities.PrintList(fuelTypesList, true);
+            Utilities.PrintInputRequest("Fuel type");
             int userFuelTypeChoice = Utilities.ChooseFromEnumList(fuelTypesList);
 
             return (FuelEngine.eFuelType)userFuelTypeChoice;
@@ -359,7 +363,7 @@ Please enter the number corresponding to your choice: ");
 
         private float getDesiredAMountOfFuel()
         {
-            return Utilities.GetValidatedFloat("Please enter your desired amount of fuel in litres:", 0, float.MaxValue);
+            return Utilities.GetValidatedFloat("Please enter your desired amount of fuel in litres:");
         }
 
         private void chargeVehicle()
@@ -376,6 +380,8 @@ Please enter the number corresponding to your choice: ");
                 float hoursOfElectricity = minutesOfElectricity / 60;
 
                 m_Garage.AddEnergy(licensePlateNumber, null, hoursOfElectricity);
+
+                Console.WriteLine($"{minutesOfElectricity} of battery time were added to vehicle.");
             }
             else
             {
@@ -385,7 +391,7 @@ Please enter the number corresponding to your choice: ");
 
         private float getDesiredAmountOfElectricityInMinutes()
         {
-            return Utilities.GetValidatedFloat("Please enter your desired amount of electricity in minutes:", 0, float.MaxValue);
+            return Utilities.GetValidatedFloat("Please enter your desired amount of electricity in minutes:");
         }
 
         private void displayVehicleFullInfo()
@@ -411,31 +417,17 @@ Please enter the number corresponding to your choice: ");
             Console.WriteLine("No vehicles in the garage.");
         }
         
-        private string getLicensePlateNumber() // NEED TO USE EXCEPTIONS!
+        private string getLicensePlateNumber() 
         {
-            while (true)
+
+            string licenseNumberString = Utilities.GetValidatedString("Please enter your license plate number:");
+            if (checkInputValidation(licenseNumberString))
             {
-                try
-                {
-                    string licenseNumberString = Utilities.GetValidatedString("Please enter your license plate number:");
-                    if (checkInputValidation(licenseNumberString))
-                    {
-                        return licenseNumberString;
-                    }
-                    else
-                    {
-                        throw new ArgumentException("License plate number contains invalid characters.");
-                    }
-                }
-                catch (FormatException ex)
-                {
-                    Console.WriteLine($"Format Error: {ex.Message}");
-                }
-                catch (ArgumentException ex)
-                {
-                    Console.WriteLine($"Argument Error: {ex.Message}");
-                }
+                return licenseNumberString;
             }
+
+            throw new ArgumentException("License plate number contains invalid characters.");
+                
         }
 
         private bool checkInputValidation(string i_LicenseNumberString)

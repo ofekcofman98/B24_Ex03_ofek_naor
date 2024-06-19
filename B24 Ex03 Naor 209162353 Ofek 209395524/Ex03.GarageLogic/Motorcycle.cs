@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using static Ex03.GarageLogic.Car;
 
 namespace Ex03.GarageLogic
 {
@@ -28,30 +27,6 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public int EngineVolume
-        {
-            get
-            {
-                return m_EngineVolume;
-            }
-            set
-            {
-                m_EngineVolume = value;
-            }
-        }
-
-        public eLicenseType LicenseType
-        {
-            get
-            {
-                return m_LicenseType;
-            }
-            set
-            {
-                m_LicenseType = value;
-            }
-        }
-
         public override Dictionary<string, Type> GetRequiredDataFields()
         {
             return new Dictionary<string, Type>
@@ -63,7 +38,12 @@ namespace Ex03.GarageLogic
 
         public override void SetSpecificData(Dictionary<string, string> i_Data)
         {
-            m_EngineVolume = int.Parse(i_Data["Engine Volume"]);
+            if(!int.TryParse(i_Data["Engine Volume"], out int engineVolume))
+            {
+                throw new FormatException("Invalid input. Volume should be integer.");
+            }
+
+            m_EngineVolume = engineVolume;
             m_LicenseType = (eLicenseType)Enum.Parse(typeof(eLicenseType), i_Data["License Type"]);
         }
 
@@ -75,6 +55,5 @@ namespace Ex03.GarageLogic
 
             return motorcycleInfo.ToString();
         }
-
     }
 }

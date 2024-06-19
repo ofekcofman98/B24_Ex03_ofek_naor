@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace Ex03.GarageLogic
 {
     internal class ElectricEngine : Engine
@@ -46,7 +45,6 @@ namespace Ex03.GarageLogic
             }
 
             m_CurrentAmountOfEnergy += i_AmountOfElectricity;
-
             m_EnergyPercentage = (m_CurrentAmountOfEnergy / r_EnergyCapacity) * 100;
         }
 

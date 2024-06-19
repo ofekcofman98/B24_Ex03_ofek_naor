@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-
-namespace Ex03.GarageLogic
+﻿namespace Ex03.GarageLogic
 {
     public abstract class Engine
     {
-        protected float m_CurrentAmountOfEnergy = 0; // 0 is const? 
+        protected float m_CurrentAmountOfEnergy = 0;
         protected float m_EnergyPercentage;
         protected readonly float r_EnergyCapacity;
 
@@ -52,12 +46,16 @@ namespace Ex03.GarageLogic
 
         public void SetCurrentAmountAndPercentageOfEnergy(float i_CurrentAmountOfEnergy)
         {
+            if(!(i_CurrentAmountOfEnergy >= k_MinimumAmountOfEnergy && i_CurrentAmountOfEnergy <= EnergyCapacity))
+            {
+                throw new ValueOutOfRangeException(0, EnergyCapacity);
+            }
+
             CurrentAmountOfEnergy = i_CurrentAmountOfEnergy;
             EnergyPercentage = (CurrentAmountOfEnergy / EnergyCapacity) * 100;
         }
 
         public abstract string GetTypeOfEnergy();
-
 
         public abstract void AddEnergy(
             string i_LicensePlateNumber,

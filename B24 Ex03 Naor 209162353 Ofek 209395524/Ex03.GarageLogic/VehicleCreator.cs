@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
-
 namespace Ex03.GarageLogic
 {
     internal static class VehicleCreator
@@ -31,13 +29,13 @@ namespace Ex03.GarageLogic
             return sr_VehiclesTypes;
         }
 
-        public static int GetNumOfVehiclesType()
-        {
-            return sr_VehiclesTypes.Count;
-        }
-
         public static Vehicle CreateNewVehicle(string i_LicensePlate, eVehicleType i_VehicleType)
         {
+            if(!(i_VehicleType >= eVehicleType.FueledMotorcycle && i_VehicleType <= eVehicleType.Truck))
+            {
+                throw new ValueOutOfRangeException((float)eVehicleType.FueledMotorcycle, (float)eVehicleType.Truck);
+            }
+
             Engine engine = CreateEngine(i_VehicleType);
             Vehicle vehicle = CreateVehicleType(i_LicensePlate, i_VehicleType, engine);
 

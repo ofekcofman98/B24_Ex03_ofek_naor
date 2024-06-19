@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
-namespace Ex03.GarageLogic
+namespace Ex03.ConsoleUI
 {
     public static class Utilities
     {
+        private const int k_FirstIndex = 1;
         public static void PrintList<T>(List<T> i_List, bool i_IsListNumbered = false)  
         {
-            int i = 1;
+            int index = k_FirstIndex;
             foreach (T item in i_List)
             {
                 if (i_IsListNumbered)
                 {
-                    Console.WriteLine($"{i}. {item}");
-                    i++;
+                    Console.WriteLine($"{index}. {item}");
+                    index++;
                 }
                 else
                 {
@@ -38,6 +38,7 @@ namespace Ex03.GarageLogic
         public static int ChooseFromEnumList(List<string> i_EnumList)
         {
             string choiceString = Console.ReadLine();
+            
             if(!int.TryParse(choiceString, out int choice))
             {
                 throw new FormatException(message: "Invalid input, please enter integer");
@@ -63,7 +64,7 @@ namespace Ex03.GarageLogic
 
             return userChoice == "y";
         }
-        //
+        
         public static string GetValidatedString(string i_Prompt)
         {
             Console.WriteLine(i_Prompt);
@@ -82,19 +83,19 @@ namespace Ex03.GarageLogic
             string input = Console.ReadLine();
             if (!long.TryParse(input, out _))
             {
-                throw new ArgumentException("Phone number must be numeric");
+                throw new FormatException("Phone number must be numeric");
             }
 
             return input;
         }
 
-        public static float GetValidatedFloat(string i_Prompt, float i_MinValue, float i_MaxValue)
+        public static float GetValidatedFloat(string i_Prompt)
         {
             Console.WriteLine(i_Prompt);
             string input = Console.ReadLine();
-            if (!float.TryParse(input, out float result) || result < i_MinValue || result > i_MaxValue)
+            if (!float.TryParse(input, out float result))
             {
-                throw new ValueOutOfRangeException(i_MinValue, i_MaxValue);
+                throw new FormatException("Invalid input, please enter a float.");
             }
 
             return result;
@@ -105,18 +106,13 @@ namespace Ex03.GarageLogic
             return "-----------------------------------------------------------------------\n";
         }   
 
-        public static int GetValidatedInteger(string i_Prompt, int i_MinValue, int i_MaxValue)
+        public static int GetValidatedInteger(string i_Prompt)
         {
             Console.Write(i_Prompt);
             string input = Console.ReadLine();
             if (!int.TryParse(input, out int result))
             {
                 throw new FormatException("Invalid input, please enter an integer.");
-            }
-
-            if (result < i_MinValue || result > i_MaxValue)
-            {
-                throw new ValueOutOfRangeException(i_MinValue, i_MaxValue);
             }
 
             return result;

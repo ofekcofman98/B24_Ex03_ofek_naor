@@ -35,28 +35,6 @@ namespace Ex03.GarageLogic
             return vehicleRecordInfo.ToString();
         }
 
-        public string OwnerName
-        {
-            get
-            {
-                return m_OwnerName;
-            }
-            set
-            {
-                m_OwnerName = value;
-            }
-        }
-        public string OwnerPhone
-        {
-            get
-            {
-                return m_OwnerPhone;
-            }
-            set
-            {
-                m_OwnerPhone = value;
-            }   
-        }
         public Vehicle Vehicle
         {
             get
@@ -81,9 +59,9 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void ChangeVehicleStatus(eVehicleStatus e_Status)
+        public void ChangeVehicleStatus(eVehicleStatus i_Status)
         {
-            this.VehicleStatus = e_Status;
+            this.VehicleStatus = i_Status;
         }
     }
 }
