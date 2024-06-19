@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Ex03.ConsoleUI
 {
-    public static class Utilities
+    public static class ConsoleUtilities
     {
         private const int k_FirstIndex = 1;
         public static void PrintList<T>(List<T> i_List, bool i_IsListNumbered = false)  
