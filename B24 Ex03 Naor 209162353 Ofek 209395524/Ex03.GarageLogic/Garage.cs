@@ -12,6 +12,14 @@ namespace Ex03.GarageLogic
 
         Dictionary<string, VehicleRecordInfo> m_VehiclesInGarageDict = new Dictionary<string, VehicleRecordInfo>();
 
+        public VehicleRecordInfo VehicleRecordInfo
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public bool IsGarageEmpty()
         {
             return m_VehiclesInGarageDict.Count == k_GarageEmpty;

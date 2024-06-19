@@ -70,6 +70,21 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public Engine Engine1
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Wheel Wheel
+        {
+            get => default;
+            set
+            {
+            }
+        }
 
         public void InflateTiresToMax()
         {
